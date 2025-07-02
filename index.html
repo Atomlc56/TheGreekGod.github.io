@@ -8,49 +8,53 @@
   <style>
     /* CSS Variables (Theme Colors for Formal Look) */
     :root {
-      --bg-color: #f8f9fa; /* Very light gray */
+      --bg-color: #f8f9fa; /* Very light gray, will be partially obscured by background image */
       --text-color: #343a40; /* Dark charcoal - Keep readable */
-      --card-color: #ffffff; /* Clean white */
+      --card-color: rgba(255, 255, 255, 0.85); /* Slightly transparent white for cards */
       --button-color: #e9ecef; /* Light gray button */
       --button-border: #ced4da; /* Medium gray border */
-      --button-hover: #D4AF37; /* **Golden yellow for hover** */
+      --button-hover: #D4AF37; /* Golden yellow for hover */
       --button-text-hover: #ffffff; /* White text on hover */
-      --header-color: #D4AF37; /* **Golden yellow for headers** */
+      --header-color: #D4AF37; /* Golden yellow for headers */
       --shadow-color: rgba(0, 0, 0, 0.08); /* Subtle shadow */
       --progress-bar-bg: #e2e6ea;
-      --progress-bar-fill: #D4AF37; /* **Golden yellow for progress bar** */
+      --progress-bar-fill: #D4AF37; /* Golden yellow for progress bar */
       --selected-answer-bg: #cfe2ff; /* Light blue for selected answer (can be changed to gold if preferred) */
-      --selected-answer-border: #D4AF37; /* **Golden yellow border for selected answer** */
-      --nav-bg-color: #343a40; /* Dark navy for nav bar */
+      --selected-answer-border: #D4AF37; /* Golden yellow border for selected answer */
+      --nav-bg-color: rgba(52, 58, 64, 0.9); /* Dark navy for nav bar, slightly transparent */
       --nav-text-color: #ffffff; /* White text for nav bar */
-      --nav-hover-color: #D4AF37; /* **Golden yellow hover for nav items** */
+      --nav-hover-color: #D4AF37; /* Golden yellow hover for nav items */
     }
 
     [data-theme="dark"] {
-      --bg-color: #212529; /* Dark gray background */
+      --bg-color: #212529; /* Dark gray background, will be partially obscured */
       --text-color: #f8f9fa; /* Light white text - Keep readable */
-      --card-color: #343a40; /* Darker card background */
+      --card-color: rgba(52, 58, 64, 0.85); /* Darker card background, slightly transparent */
       --button-color: #495057; /* Medium dark gray button */
       --button-border: #6c757d; /* Lighter gray border */
-      --button-hover: #FFD700; /* **Brighter Golden yellow for dark theme hover** */
+      --button-hover: #FFD700; /* Brighter Golden yellow for dark theme hover */
       --button-text-hover: #212529; /* Dark text on hover for contrast */
-      --header-color: #FFD700; /* **Brighter Golden yellow for dark theme headers** */
+      --header-color: #FFD700; /* Brighter Golden yellow for dark theme headers */
       --shadow-color: rgba(0, 0, 0, 0.3); /* More visible shadow for dark theme */
       --progress-bar-bg: #495057;
-      --progress-bar-fill: #FFD700; /* **Brighter Golden yellow for progress bar in dark theme** */
+      --progress-bar-fill: #FFD700; /* Brighter Golden yellow for progress bar in dark theme */
       --selected-answer-bg: #004085; /* Darker blue for selected in dark mode (can be changed to gold if preferred) */
-      --selected-answer-border: #FFD700; /* **Brighter Golden yellow border for selected in dark mode** */
-      --nav-bg-color: #1a1a1a; /* Even darker for nav bar in dark theme */
+      --selected-answer-border: #FFD700; /* Brighter Golden yellow border for selected in dark mode */
+      --nav-bg-color: rgba(26, 26, 26, 0.9); /* Even darker for nav bar in dark theme, slightly transparent */
       --nav-text-color: #e0e0e0; /* Lighter text for nav bar */
-      --nav-hover-color: #FFD700; /* **Brighter Golden yellow hover for nav items** */
+      --nav-hover-color: #FFD700; /* Brighter Golden yellow hover for nav items */
     }
 
     body {
       font-family: 'IBM Plex Sans Thai', 'Roboto', 'Noto Sans SC', sans-serif;
-      background: var(--bg-color);
+      background-image: url('image_248efd.png'); /* Set background image */
+      background-size: cover; /* Cover the entire background area */
+      background-position: center center; /* Center the image */
+      background-repeat: no-repeat; /* Do not repeat the image */
+      background-attachment: fixed; /* Make the background image fixed when scrolling */
       color: var(--text-color);
       margin: 0;
-      padding: 0; /* Remove padding from body, container will have it */
+      padding: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -61,14 +65,14 @@
     /* Navigation Bar */
     .navbar {
       width: 100%;
-      background-color: var(--nav-bg-color);
+      background-color: var(--nav-bg-color); /* Now slightly transparent */
       padding: 1rem 0;
       box-shadow: 0 2px 5px rgba(0,0,0,0.2);
       display: flex;
       justify-content: center;
       position: sticky;
       top: 0;
-      z-index: 1000; /* Ensure it stays on top */
+      z-index: 1000;
     }
 
     .navbar-links {
@@ -76,7 +80,7 @@
       margin: 0;
       padding: 0;
       display: flex;
-      gap: 2.5rem; /* Space out nav items */
+      gap: 2.5rem;
     }
 
     .navbar-links li a {
@@ -97,23 +101,23 @@
     
     /* Global Container Styles */
     .container {
-      max-width: 800px; /* กว้างขึ้นเล็กน้อย */
+      max-width: 800px;
       width: 100%;
-      background: var(--card-color);
-      border-radius: 8px; /* Formal rounded corners */
+      background: var(--card-color); /* Now slightly transparent */
+      border-radius: 8px;
       padding: 2.5rem;
-      box-shadow: 0 4px 12px var(--shadow-color); /* Formal shadow */
+      box-shadow: 0 4px 12px var(--shadow-color);
       text-align: center;
       z-index: 1;
       border: 1px solid var(--button-border);
-      margin-top: 2rem; /* เพิ่มระยะห่างจากด้านบน */
-      margin-bottom: 2rem; /* Ensure space at the bottom */
+      margin-top: 2rem;
+      margin-bottom: 2rem;
     }
 
     h1 {
       font-family: 'Roboto', 'Noto Sans SC', sans-serif;
       font-size: 2.2rem;
-      color: var(--header-color); /* This will be golden yellow */
+      color: var(--header-color);
       margin-bottom: 1.8rem;
       text-shadow: none;
       font-weight: 700;
@@ -174,7 +178,7 @@
 
     #result h2 {
       font-family: 'Roboto', 'Noto Sans SC', sans-serif;
-      color: var(--header-color); /* This will be golden yellow */
+      color: var(--header-color);
       font-size: 1.8rem;
       margin-bottom: 1rem;
       font-weight: 700;
@@ -198,6 +202,26 @@
       margin-bottom: 1.5rem;
       color: var(--text-color);
     }
+    
+    #result .reason-text { /* เพิ่มสไตล์สำหรับเหตุผล */
+        font-size: 1.05rem;
+        margin-bottom: 1rem;
+        font-weight: 500;
+        color: var(--text-color);
+    }
+
+    #result .source-link { /* เพิ่มสไตล์สำหรับลิงก์ */
+        font-size: 0.9rem;
+        margin-top: 1.5rem;
+        color: #6c757d; /* สีเทาสำหรับลิงก์ */
+        text-decoration: none;
+        display: block; /* ทำให้ขึ้นบรรทัดใหม่ */
+    }
+    #result .source-link:hover {
+        text-decoration: underline;
+        color: var(--header-color);
+    }
+
 
     .top-controls {
       display: flex;
@@ -253,14 +277,14 @@
 
     /* History Section Styles */
     #history-container {
-      display: none; /* Hidden by default */
+      display: none;
       text-align: left;
     }
 
     #history-container h2 {
       font-family: 'Roboto', 'Noto Sans SC', sans-serif;
       font-size: 2rem;
-      color: var(--header-color); /* This will be golden yellow */
+      color: var(--header-color);
       margin-bottom: 1.5rem;
       text-align: center;
     }
@@ -284,7 +308,7 @@
     }
 
     .god-card:hover {
-      background-color: var(--button-hover); /* This will be golden yellow */
+      background-color: var(--button-hover);
       color: var(--button-text-hover);
       border-color: var(--button-hover);
       transform: translateY(-2px);
@@ -300,7 +324,7 @@
       border: 2px solid var(--button-border);
     }
     [data-theme="dark"] .god-card img {
-      border-color: var(--nav-hover-color); /* This will be golden yellow */
+      border-color: var(--nav-hover-color);
     }
 
 
@@ -318,7 +342,7 @@
 
     /* Specific God Detail View */
     #god-detail-view {
-      display: none; /* Hidden by default */
+      display: none;
       text-align: center;
     }
 
@@ -328,17 +352,17 @@
       border-radius: 50%;
       object-fit: cover;
       margin: 1.5rem auto;
-      border: 4px solid var(--header-color); /* This will be golden yellow */
+      border: 4px solid var(--header-color);
       box-shadow: 0 6px 15px var(--shadow-color);
     }
     [data-theme="dark"] #god-detail-view img {
-      border-color: var(--nav-hover-color); /* This will be golden yellow */
+      border-color: var(--nav-hover-color);
     }
 
     #god-detail-view h2 {
       font-size: 2.5rem;
       margin-bottom: 1rem;
-      color: var(--header-color); /* This will be golden yellow */
+      color: var(--header-color);
     }
 
     #god-detail-view p {
@@ -352,12 +376,12 @@
       margin-top: 1.5rem;
       padding: 0.8rem 1.5rem;
       font-size: 1rem;
-      background: var(--button-hover); /* This will be golden yellow */
+      background: var(--button-hover);
       color: var(--button-text-hover);
       border-color: var(--button-hover);
     }
     #back-to-history-btn:hover {
-      background: var(--header-color); /* This will be golden yellow */
+      background: var(--header-color);
       border-color: var(--header-color);
     }
 
@@ -499,12 +523,14 @@
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
   <script>
     const translations = {
       th: {
         title: "คุณเป็นเทพเจ้าองค์ใดในตำนานกรีก?",
         resultPrefix: "คุณเหมือนกับเทพเจ้า",
+        reasonPrefix: "เพราะว่าคุณเป็นคน",
         prevBtn: "ย้อนกลับ",
         nextBtn: "ถัดไป",
         restartBtn: "เริ่มใหม่",
@@ -514,11 +540,13 @@
         historyTitle: "ประวัติเทพเจ้ากรีก",
         historyIntro: "คลิกที่เทพเจ้าแต่ละองค์เพื่อดูรายละเอียดเพิ่มเติม",
         backToHistoryBtn: "กลับสู่หน้ารายชื่อเทพ",
-        cannotProcessResult: "ไม่สามารถประมวลผลผลลัพธ์ได้"
+        cannotProcessResult: "ไม่สามารถประมวลผลผลลัพธ์ได้",
+        sourceLinkText: "แหล่งอ้างอิงข้อมูลเทพเจ้า: Wikipedia"
       },
       en: {
         title: "Which Greek God Are You?",
         resultPrefix: "You are like the god",
+        reasonPrefix: "Because you are",
         prevBtn: "Previous",
         nextBtn: "Next",
         restartBtn: "Restart Quiz",
@@ -528,11 +556,13 @@
         historyTitle: "History of Greek Gods",
         historyIntro: "Click on each god to learn more.",
         backToHistoryBtn: "Back to God List",
-        cannotProcessResult: "Cannot process result"
+        cannotProcessResult: "Cannot process result",
+        sourceLinkText: "God data source: Wikipedia"
       },
       zh: {
         title: "你是希腊神话中的哪位神?",
         resultPrefix: "你像希腊神话中的",
+        reasonPrefix: "因为你是一个",
         prevBtn: "上一题",
         nextBtn: "下一题",
         restartBtn: "重新开始",
@@ -542,23 +572,24 @@
         historyTitle: "希腊神话历史",
         historyIntro: "点击每位神灵了解更多信息。",
         backToHistoryBtn: "返回神灵列表",
-        cannotProcessResult: "无法处理结果"
+        cannotProcessResult: "无法处理结果",
+        sourceLinkText: "神灵数据来源：维基百科"
       }
     };
 
     const godData = {
-      Zeus: { name: { th: "ซูส", en: "Zeus", zh: "宙斯" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Zeus_Capitoline_Museums.jpg/300px-Zeus_Capitoline_Museums.jpg", desc: { th: "เทพแห่งสายฟ้าและราชาแห่งเทพเจ้าผู้ปกครองเขาโอลิมปัส เป็นผู้ควบคุมสภาพอากาศและสัญลักษณ์ของอำนาจ ความยุติธรรม และกฎระเบียบ เขามักถูกวาดภาพคู่กับสายฟ้าและนกอินทรี", en: "God of thunder and king of the gods, ruler of Mount Olympus. He controls weather and symbolizes power, justice, and order. He is often depicted with a lightning bolt and an eagle.", zh: "雷电之神，奥林匹斯山之王。他掌控天气，象征着权力、正义和秩序。他常被描绘成手持闪电，身边伴有老鹰。" } },
-      Hera: { name: { th: "เฮร่า", en: "Hera", zh: "赫拉" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Hera_Ludovisi_Altemps_Inv8607.jpg/300px-Hera_Ludovisi_Altemps_Inv8607.jpg", desc: { th: "เทพีแห่งการแต่งงาน สตรี การคลอดบุตร และครอบครัว เป็นราชินีแห่งโอลิมปัสและภรรยาของซูส เธอมักถูกวาดภาพด้วยมงกุฎและคทา", en: "Goddess of marriage, women, childbirth, and family. She is the Queen of Olympus and wife of Zeus. She is often depicted with a diadem and a scepter.", zh: "婚姻、妇女、生育和家庭女神，奥林匹斯山女王，宙斯的妻子。她常被描绘成头戴王冠，手持权杖。" } },
-      Poseidon: { name: { th: "โพไซดอน", en: "Poseidon", zh: "波塞冬" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Poseidon_National_Archaeological_Museum_Athens_N_235_IMG_8604.jpg/300px-Poseidon_National_Archaeological_Museum_Athens_N_235_IMG_8604.jpg", desc: { th: "เทพแห่งท้องทะเล แผ่นดินไหว และม้า เป็นพี่ชายของซูสและฮาเดส เขามีอารมณ์รุนแรงและมักถูกวาดภาพคู่กับตรีศูล", en: "God of the sea, earthquakes, and horses. He is a brother of Zeus and Hades, known for his violent temper and is often depicted with a trident.", zh: "海洋、地震和马匹之神，宙斯和哈迪斯的兄弟。他性情暴躁，常被描绘成手持三叉戟。" } },
-      Demeter: { name: { th: "ดีมีเทอร์", en: "Demeter", zh: "得墨忒耳" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Demeter_Altemps_Inv8596.jpg/300px-Demeter_Altemps_Inv8596.jpg", desc: { th: "เทพีแห่งการเกษตร การเก็บเกี่ยว ความอุดมสมบูรณ์ และกฎแห่งธรรมชาติ เป็นผู้ให้กำเนิดพืชผลและอาหารแก่มนุษย์ เธอเป็นเทพีที่ใจดีและรักการดูแล", en: "Goddess of agriculture, harvest, fertility, and sacred law. She is the giver of grain and food to mankind. She is a kind and nurturing goddess.", zh: "农业、收获、丰饶和自然法则女神，为人类提供谷物和食物。她是一位仁慈且富有母性的女神。" } },
-      Athena: { name: { th: "อธีนา", en: "Athena", zh: "雅典娜" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Pallas_Athena.jpg/300px-Pallas_Athena.jpg", desc: { th: "เทพีแห่งปัญญา สงครามยุทธวิธี งานฝีมือ และศิลปะ เธอเกิดจากศีรษะของซูสอย่างเต็มตัวและติดอาวุธ เป็นผู้กล้าหาญและรอบรู้", en: "Goddess of wisdom, strategic warfare, handicrafts, and art. She was born fully grown and armed from Zeus's head. She is brave and highly knowledgeable.", zh: "智慧、策略性战争、手工艺和艺术女神。她从宙斯的头颅中全副武装地诞生。她勇敢而博学多才。" } },
-      Apollo: { name: { th: "อะพอลโล", en: "Apollo", zh: "阿波罗" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Apollon_Pio-Clementino_Inv1436.jpg/300px-Apollon_Pio-Clementino_Inv1436.jpg", desc: { th: "เทพแห่งดนตรี กวีนิพนธ์ แสง การรักษาโรค และการพยากรณ์ เป็นผู้นำของเหล่ามิวส์และเป็นเทพแห่งความงามและสมดุล", en: "God of music, poetry, light, healing, and prophecy. He is the leader of the Muses and a god of beauty and balance.", zh: "音乐、诗歌、光明、治疗和预言之神。他是缪斯女神的领袖，是美与平衡的象征。" } },
-      Artemis: { name: { th: "อาร์เทมิส", en: "Artemis", zh: "阿耳忒弥斯" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Diana_of_Versailles_Leochares_Louvre_Ma589_n2.jpg/300px-Diana_of_Versailles_Leochares_Louvre_Ma589_n2.jpg", desc: { th: "เทพีแห่งการล่า ป่า สัตว์ป่า และดวงจันทร์ เป็นเทพีพรหมจารีและผู้พิทักษ์ธรรมชาติ เธอเป็นอิสระและรักอิสรภาพ", en: "Goddess of the hunt, wilderness, wild animals, and the moon. She is a virgin goddess and protector of nature. She is independent and loves freedom.", zh: "狩猎、荒野、野生动物和月亮女神。她是一位贞洁的女神，也是大自然的守护者。她独立且热爱自由。" } },
-      Ares: { name: { th: "แอรีส", en: "Ares", zh: "阿瑞斯" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Ares_Ludovisi_Altemps_Inv8602.jpg/300px-Ares_Ludovisi_Altemps_Inv8602.jpg", desc: { th: "เทพแห่งสงคราม การต่อสู้ และความโหดร้าย เป็นบุตรชายของซูสและเฮร่า เขากล้าหาญ ดุดัน และไม่กลัวสิ่งใด", en: "God of war, battle, and brutality. He is the son of Zeus and Hera, known for his bravery, aggression, and fearlessness.", zh: "战争、战斗和残暴之神。他是宙斯和赫拉的儿子，以其勇敢、好斗和无畏而闻名。" } },
-      Aphrodite: { name: { th: "อโฟรไดท์", en: "Aphrodite", zh: "阿佛洛狄忒" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Aphrodite_of_Knidos_Altemps_Inv8619.jpg/300px-Aphrodite_of_Knidos_Altemps_Inv8619.jpg", desc: { th: "เทพีแห่งความรัก ความงาม ความสุข และความเจริญรุ่งเรือง เธอเกิดจากฟองคลื่นทะเล มีเสน่ห์และรักสันติ", en: "Goddess of love, beauty, pleasure, and procreation. Born from the sea foam, she is charming and peaceful.", zh: "爱、美、快乐和繁殖女神。她诞生于海浪泡沫中，迷人且热爱和平。" } },
-      Hephaestus: { name: { th: "เฮเฟสทัส", en: "Hephaestus", zh: "赫菲斯托斯" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Vulcan_Capitoline_Museums.jpg/300px-Vulcan_Capitoline_Museums.jpg", desc: { th: "เทพแห่งไฟ โลหะ การช่างฝีมือ และภูเขาไฟ เป็นช่างตีเหล็กแห่งเทพเจ้าผู้สร้างสรรค์สิ่งประดิษฐ์อันงดงาม เขามีความขยันและสร้างสรรค์", en: "God of fire, metalworking, craftsmanship, and volcanoes. He is the blacksmith of the gods, creating beautiful artifacts. He is diligent and creative.", zh: "火、金属加工、手工艺和火山之神。他是众神的铁匠，创造出精美的神器。他勤奋且富有创造力。" } },
-      Hermes: { name: { th: "เฮอร์มีส", en: "Hermes", zh: "赫尔墨斯" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Hermes_Ingenui_Pio-Clementino_Inv1436.jpg/300px-Hermes_Ingenui_Pio-Clementino_Inv1436.jpg", desc: { th: "เทพแห่งการสื่อสาร การเดินทาง โจร และนักกีฬา เป็นผู้ส่งสารของเทพเจ้าและเป็นผู้คุ้มครองการค้าและคนเดินทาง เขาว่องไวและเจ้าเล่ห์", en: "God of communication, travel, thieves, and athletes. He is the messenger of the gods and protector of trade and travelers. He is swift and clever.", zh: "信息、旅行、小偷和运动员之神。他敏捷而狡黠，是众神的信使，商业和旅行者的守护神。" } },
-      Hades: { name: { th: "ฮาเดส", en: "Hades", zh: "哈迪斯" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Hades_with_Cerberus_-_Altemps_Inv8599.jpg/300px-Hades_with_Cerberus_-_Altemps_Inv8599.jpg", desc: { th: "เทพแห่งยมโลกและความมั่งคั่งจากใต้ดิน เป็นผู้ปกครองอาณาจักรแห่งความตาย เขามักถูกเข้าใจผิดว่าเป็นเทพแห่งความชั่วร้าย แต่จริงๆ แล้วเป็นเทพที่เงียบขรึม ทรงพลัง และยุติธรรม", en: "God of the underworld and the wealth of the earth. He rules the realm of the dead. Often misunderstood as evil, he is actually quiet, powerful, and just.", zh: "冥界和地下财富之神。他统治着死亡的国度。他常被误解为邪恶之神，但实际上他沉默寡言、强大而公正。" } }
+      Zeus: { name: { th: "ซูส", en: "Zeus", zh: "宙斯" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Zeus_Capitoline_Museums.jpg/300px-Zeus_Capitoline_Museums.jpg", desc: { th: "เทพแห่งสายฟ้าและราชาแห่งเทพเจ้าผู้ปกครองเขาโอลิมปัส เป็นผู้ควบคุมสภาพอากาศและสัญลักษณ์ของอำนาจ ความยุติธรรม และกฎระเบียบ เขามักถูกวาดภาพคู่กับสายฟ้าและนกอินทรี", en: "God of thunder and king of the gods, ruler of Mount Olympus. He controls weather and symbolizes power, justice, and order. He is often depicted with a lightning bolt and an eagle.", zh: "雷电之神，奥林匹斯山之王。他掌控天气，象征着权力、正义和秩序。他常被描绘成手持闪电，身边伴有老鹰。" }, reason: { th: "มีภาวะผู้นำ, เด็ดขาด, และรักความยุติธรรม", en: "a decisive, powerful leader who values justice", zh: "果断、强大、重视正义的领导者" }, source: "https://th.wikipedia.org/wiki/%E0%B8%8B%E0%B8%B9%E0%B8%AA" },
+      Hera: { name: { th: "เฮร่า", en: "Hera", zh: "赫拉" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Hera_Ludovisi_Altemps_Inv8607.jpg/300px-Hera_Ludovisi_Altemps_Inv8607.jpg", desc: { th: "เทพีแห่งการแต่งงาน สตรี การคลอดบุตร และครอบครัว เป็นราชินีแห่งโอลิมปัสและภรรยาของซูส เธอมักถูกวาดภาพด้วยมงกุฎและคทา", en: "Goddess of marriage, women, childbirth, and family. She is the Queen of Olympus and wife of Zeus. She is often depicted with a diadem and a scepter.", zh: "婚姻、妇女、生育和家庭女神，奥林匹斯山女王，宙斯的妻子。她常被描绘成头戴王冠，手持权杖。" }, reason: { th: "รักครอบครัว, มีความภักดี, และเป็นผู้ปกป้อง", en: "loyal, protective, and deeply devoted to family", zh: "忠诚、有保护欲、非常顾家" }, source: "https://th.wikipedia.org/wiki/%E0%B9%80%E0%B8%AE%E0%B8%A3%E0%B9%88%E0%B8%B2" },
+      Poseidon: { name: { th: "โพไซดอน", en: "Poseidon", zh: "波塞冬" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Poseidon_National_Archaeological_Museum_Athens_N_235_IMG_8604.jpg/300px-Poseidon_National_Archaeological_Museum_Athens_N_235_IMG_8604.jpg", desc: { th: "เทพแห่งท้องทะเล แผ่นดินไหว และม้า เป็นพี่ชายของซูสและฮาเดส เขามีอารมณ์รุนแรงและมักถูกวาดภาพคู่กับตรีศูล", en: "God of the sea, earthquakes, and horses. He is a brother of Zeus and Hades, known for his violent temper and is often depicted with a trident.", zh: "海洋、地震和马匹之神，宙斯和哈迪斯的兄弟。他性情暴躁，常被描绘成手持三叉戟。" }, reason: { th: "รักอิสระ, มีพลังขับเคลื่อน, และอาจมีอารมณ์ที่รุนแรง", en: "free-spirited, powerful, and sometimes tempestuous", zh: "热爱自由、力量强大，有时性情暴躁" }, source: "https://th.wikipedia.org/wiki/%E0%B9%82%E0%B8%9E%E0%B9%84%E0%B8%8B%E0%B8%94%E0%B8%AD%E0%B8%99" },
+      Demeter: { name: { th: "ดีมีเทอร์", en: "Demeter", zh: "得墨忒耳" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Demeter_Altemps_Inv8596.jpg/300px-Demeter_Altemps_Inv8596.jpg", desc: { th: "เทพีแห่งการเกษตร การเก็บเกี่ยว ความอุดมสมบูรณ์ และกฎแห่งธรรมชาติ เป็นผู้ให้กำเนิดพืชผลและอาหารแก่มนุษย์ เธอเป็นเทพีที่ใจดีและรักการดูแล", en: "Goddess of agriculture, harvest, fertility, and sacred law. She is the giver of grain and food to mankind. She is a kind and nurturing goddess.", zh: "农业、收获、丰饶和自然法则女神，为人类提供谷物和食物。她是一位仁慈且富有母性的女神。" }, reason: { th: "ใจดี, มีความเมตตา, และรักการดูแลผู้อื่น", en: "kind, nurturing, and compassionate towards others", zh: "善良、有爱心、乐于照顾他人" }, source: "https://th.wikipedia.org/wiki/%E0%B8%94%E0%B8%B5%E0%B8%A1%E0%B8%B5%E0%B9%80%E0%B8%97%E0%B8%AD%E0%B8%A3%E0%B9%8C" },
+      Athena: { name: { th: "อธีนา", en: "Athena", zh: "雅典娜" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Pallas_Athena.jpg/300px-Pallas_Athena.jpg", desc: { th: "เทพีแห่งปัญญา สงครามยุทธวิธี งานฝีมือ และศิลปะ เธอเกิดจากศีรษะของซูสอย่างเต็มตัวและติดอาวุธ เป็นผู้กล้าหาญและรอบรู้", en: "Goddess of wisdom, strategic warfare, handicrafts, and art. She was born fully grown and armed from Zeus's head. She is brave and highly knowledgeable.", zh: "智慧、策略性战争、手工艺和艺术女神。她从宙斯的头颅中全副武装地诞生。她勇敢而博学多才。" }, reason: { th: "ชาญฉลาด, มีเหตุผล, และวางแผนเก่ง", en: "wise, strategic, and logical in your approach", zh: "聪明、有策略、理性" }, source: "https://th.wikipedia.org/wiki/%E0%B8%AD%E0%B8%98%E0%B8%B5%E0%B8%99า" },
+      Apollo: { name: { th: "อะพอลโล", en: "Apollo", zh: "阿波罗" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Apollon_Pio-Clementino_Inv1436.jpg/300px-Apollon_Pio-Clementino_Inv1436.jpg", desc: { th: "เทพแห่งดนตรี กวีนิพนธ์ แสง การรักษาโรค และการพยากรณ์ เป็นผู้นำของเหล่ามิวส์และเป็นเทพแห่งความงามและสมดุล", en: "God of music, poetry, light, healing, and prophecy. He is the leader of the Muses and a god of beauty and balance.", zh: "音乐、诗歌、光明、治疗和预言之神。他是缪斯女神的领袖，是美与平衡的象征。" }, reason: { th: "มีศิลปะในหัวใจ, ชอบความสวยงาม, และมองโลกในแง่ดี", en: "artistic, appreciative of beauty, and optimistic", zh: "有艺术气息、热爱美、乐观" }, source: "https://th.wikipedia.org/wiki/%E0%B8%AD%E0%B8%B0%E0%B8%9E%E0%B8%AD%E0%B8%A5%E0%B9%82%E0%B8%A5" },
+      Artemis: { name: { th: "อาร์เทมิส", en: "Artemis", zh: "阿耳忒弥斯" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Diana_of_Versailles_Leochares_Louvre_Ma589_n2.jpg/300px-Diana_of_Versailles_Leochares_Louvre_Ma589_n2.jpg", desc: { th: "เทพีแห่งการล่า ป่า สัตว์ป่า และดวงจันทร์ เป็นเทพีพรหมจารีและผู้พิทักษ์ธรรมชาติ เธอเป็นอิสระและรักอิสรภาพ", en: "Goddess of the hunt, wilderness, wild animals, and the moon. She is a virgin goddess and protector of nature. She is independent and loves freedom.", zh: "狩猎、荒野、野生动物和月亮女神。她是一位贞洁的女神，也是大自然的守护者。她独立且热爱自由。" }, reason: { th: "รักอิสระ, มีความมุ่งมั่น, และรักธรรมชาติ", en: "independent, determined, and connected to nature", zh: "独立、坚定、热爱大自然" }, source: "https://th.wikipedia.org/wiki/%E0%B8%AD%E0%B8%B2%E0%B8%A3%E0%B9%8C%E0%B9%80%E0%B8%97%E0%B8%A1%E0%B8%B4%E0%B8%AA" },
+      Ares: { name: { th: "แอรีส", en: "Ares", zh: "阿瑞斯" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Ares_Ludovisi_Altemps_Inv8602.jpg/300px-Ares_Ludovisi_Altemps_Inv8602.jpg", desc: { th: "เทพแห่งสงคราม การต่อสู้ และความโหดร้าย เป็นบุตรชายของซูสและเฮร่า เขากล้าหาญ ดุดัน และไม่กลัวสิ่งใด", en: "God of war, battle, and brutality. He is the son of Zeus and Hera, known for his bravery, aggression, and fearlessness.", zh: "战争、战斗和残暴之神。他常被描绘成手持闪电，身边伴有老鹰。" }, reason: { th: "กล้าหาญ, ตรงไปตรงมา, และไม่กลัวความท้าทาย", en: "brave, direct, and fearless in the face of challenges", zh: "勇敢、直接、无畏挑战" }, source: "https://th.wikipedia.org/wiki/%E0%B9%81%E0%B8%AD%E0%B8%A3%E0%B8%B5%E0%B8%AA" },
+      Aphrodite: { name: { th: "อโฟรไดท์", en: "Aphrodite", zh: "阿佛洛狄忒" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Aphrodite_of_Knidos_Altemps_Inv8619.jpg/300px-Aphrodite_of_Knidos_Altemps_Inv8619.jpg", desc: { th: "เทพีแห่งความรัก ความงาม ความสุข และความเจริญรุ่งเรือง เธอเกิดจากฟองคลื่นทะเล มีเสน่ห์และรักสันติ", en: "Goddess of love, beauty, pleasure, and procreation. Born from the sea foam, she is charming and peaceful.", zh: "爱、美、快乐和繁殖女神。她诞生于海浪泡沫中，迷人且热爱和平。" }, reason: { th: "มีเสน่ห์, รักความงาม, และชื่นชอบความสัมพันธ์ที่ดี", en: "charming, graceful, and value love and beauty", zh: "有魅力、爱美、重视良好关系" }, source: "https://th.wikipedia.org/wiki/%E0%B8%AD%E0%B8%B0%E0%B9%82%E0%B8%9F%E0%B8%A3%E0%B9%84%E0%B8%94%E0%B8%97%E0%B8%B5" },
+      Hephaestus: { name: { th: "เฮเฟสทัส", en: "Hephaestus", zh: "赫菲斯托斯" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Vulcan_Capitoline_Museums.jpg/300px-Vulcan_Capitoline_Museums.jpg", desc: { th: "เทพแห่งไฟ โลหะ การช่างฝีมือ และภูเขาไฟ เป็นช่างตีเหล็กแห่งเทพเจ้าผู้สร้างสรรค์สิ่งประดิษฐ์อันงดงาม เขามีความขยันและสร้างสรรค์", en: "God of fire, metalworking, craftsmanship, and volcanoes. He is the blacksmith of the gods, creating beautiful artifacts. He is diligent and creative.", zh: "火、金属加工、手工艺和火山之神。他勤奋且富有创造力。" }, reason: { th: "สร้างสรรค์, มีความมุ่งมั่น, และชอบประดิษฐ์สิ่งใหม่ๆ", en: "creative, diligent, and enjoy building new things", zh: "有创造力、勤奋、喜欢创造新事物" }, source: "https://th.wikipedia.org/wiki/%E0%B9%80%E0%B8%AE%E0%B9%80%E0%B8%9F%E0%B8%AA%E0%B8%97%E0%B8%B1%E0%B8%AA" },
+      Hermes: { name: { th: "เฮอร์มีส", en: "Hermes", zh: "赫尔墨斯" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Hermes_Ingenui_Pio-Clementino_Inv1436.jpg/300px-Hermes_Ingenui_Pio-Clementino_Inv1436.jpg", desc: { th: "เทพแห่งการสื่อสาร การเดินทาง โจร และนักกีฬา เป็นผู้ส่งสารของเทพเจ้าและเป็นผู้คุ้มครองการค้าและคนเดินทาง เขาว่องไวและเจ้าเล่ห์", en: "God of communication, travel, thieves, and athletes. He is the messenger of the gods and protector of trade and travelers. He is swift and clever.", zh: "信息、旅行、小偷和运动员之神。他敏捷而狡黠，是众神的信使，商业和旅行者的守护神。" }, reason: { th: "ฉลาดเฉลียว, ปรับตัวเก่ง, และชอบการเดินทางหรือการสื่อสาร", en: "witty, adaptable, and a great communicator or traveler", zh: "机智、适应性强、善于沟通或旅行" }, source: "https://th.wikipedia.org/wiki/%E0%B9%80%E0%B8%AE%E0%B8%AD%E0%B8%A3%E0%B9%8C%E0%B8%A1%E0%B8%B5%E0%B8%AA" },
+      Hades: { name: { th: "ฮาเดส", en: "Hades", zh: "哈迪斯" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Hades_with_Cerberus_-_Altemps_Inv8599.jpg/300px-Hades_with_Cerberus_-_Altemps_Inv8599.jpg", desc: { th: "เทพแห่งยมโลกและความมั่งคั่งจากใต้ดิน เป็นผู้ปกครองอาณาจักรแห่งความตาย เขามักถูกเข้าใจผิดว่าเป็นเทพแห่งความชั่วร้าย แต่จริงๆ แล้วเป็นเทพที่เงียบขรึม ทรงพลัง และยุติธรรม", en: "God of the underworld and the wealth of the earth. He rules the realm of the dead. Often misunderstood as evil, he is actually quiet, powerful, and just.", zh: "冥界和地下财富之神。他常被误解为邪恶之神，但实际上他沉默寡言、强大而公正。" }, reason: { th: "ลึกซึ้ง, เก็บตัว, และมีความยุติธรรมในแบบของตัวเอง", en: "deep, reserved, and possess a unique sense of justice", zh: "深沉、内敛、有自己独特的正义感" }, source: "https://th.wikipedia.org/wiki/%E0%B8%AE%E0%B8%B2%E0%B9%80%E0%B8%94%E0%B8%AA" }
     };
 
     const questionsByLang = {
@@ -724,28 +755,28 @@
           { text: "有趣，幽默", type: "Hermes" }
         ]},
         { question: "你想要哪种超能力？", answers: [
-          { text: "控制海洋和风暴", type: "Poseidon" },
-          { text: "快速沟通和移动", type: "Hermes" },
-          { text: "无限种植庄稼", type: "Demeter" },
-          { text: "无法抗拒的魅力", type: "Aphrodite" }
+          { text: "控制ทะเลและพายุ", type: "Poseidon" },
+          { text: "สื่อสารและเคลื่อนย้ายได้รวดเร็ว", type: "Hermes" },
+          { text: "ปลูกพืชผลได้ไม่จำกัด", type: "Demeter" },
+          { text: "เสน่ห์ที่ไม่มีใครต้านทานได้", type: "Aphrodite" }
         ]},
-        { question: "你希望以什么被记住？", answers: [
-          { text: "智慧和建议", type: "Athena" },
-          { text: "战争中的勇气", type: "Ares" },
+        { question: "คุณอยากเป็นที่จดจำในเรื่องใด?", answers: [
+          { text: "ปัญญาและการให้คำแนะนำ", type: "Athena" },
+          { text: "ความกล้าหาญในสงคราม", type: "Ares" },
           { text: "ความรักและความงาม", type: "Aphrodite" },
           { text: "การสร้างสรรค์ผลงาน", type: "Hephaestus" }
         ]},
-        { question: "最能反映你的颜色是？", answers: [
-          { text: "金色和银色", type: "Zeus" },
-          { text: "自然绿", type: "Demeter" },
-          { text: "深红或青铜", type: "Ares" },
-          { text: "深蓝或海蓝色", type: "Poseidon" }
+        { question: "สีที่สะท้อนตัวคุณมากที่สุดคือ?", answers: [
+          { text: "ทองและเงิน", type: "Zeus" },
+          { text: "เขียวธรรมชาติ", type: "Demeter" },
+          { text: "แดงเข้มหรือบรอนซ์", type: "Ares" },
+          { text: "น้ำเงินเข้มหรือน้ำทะเล", type: "Poseidon" }
         ]},
-        { question: "你如何处理冲突？", answers: [
-          { text: "讲道理，沟通", type: "Athena" },
-          { text: "直接面对并解决问题", type: "Ares" },
-          { text: "避免并静观其变", type: "Hades" },
-          { text: "寻求和平解决方案", type: "Aphrodite" }
+        { question: "คุณจัดการกับความขัดแย้งอย่างไร?", answers: [
+          { text: "ใช้เหตุผลและพูดคุย", type: "Athena" },
+          { text: "เผชิญหน้าและแก้ปัญหาโดยตรง", type: "Ares" },
+          { text: "หลีกเลี่ยงและเฝ้าดูเงียบๆ", type: "Hades" },
+          { text: "หาวิธีสร้างสันติ", type: "Aphrodite" }
         ]}
       ]
     };
@@ -812,11 +843,22 @@
 
     function toggleTheme() {
       const body = document.body;
-      // Toggle the theme class
       if (body.dataset.theme === "light") {
           body.dataset.theme = "dark";
       } else {
           body.dataset.theme = "light";
+      }
+      updateTransparency();
+    }
+
+    function updateTransparency() {
+      const root = document.documentElement;
+      if (document.body.dataset.theme === "dark") {
+        root.style.setProperty('--card-color', 'rgba(52, 58, 64, 0.85)');
+        root.style.setProperty('--nav-bg-color', 'rgba(26, 26, 26, 0.9)');
+      } else {
+        root.style.setProperty('--card-color', 'rgba(255, 255, 255, 0.85)');
+        root.style.setProperty('--nav-bg-color', 'rgba(52, 58, 64, 0.9)');
       }
     }
 
@@ -828,7 +870,7 @@
       if (document.getElementById("quiz-container").style.display !== 'none') {
         showQuestion();
       } else if (document.getElementById("result").innerHTML !== '') {
-        showResult();
+        showResult(); // <-- เรียก showResult อีกครั้งเพื่ออัปเดตภาษา
       }
       
       document.getElementById("history-title").textContent = translations[lang].historyTitle;
@@ -895,10 +937,10 @@
       for (const god in scores) {
           if (scores.hasOwnProperty(god)) {
               scores[god] = 0;
-          }
-      }
-      userAnswers.forEach(answer => {
-          if (answer) {
+            }
+        }
+        userAnswers.forEach(answer => {
+            if (answer) {
             scores[answer.type] = (scores[answer.type] || 0) + 1;
           }
       });
@@ -907,7 +949,10 @@
         current++;
         showQuestion();
       } else {
-        setTimeout(showResult, 300);
+        setTimeout(() => {
+          showResult();
+          triggerFireworks();
+        }, 300);
       }
     }
 
@@ -925,10 +970,10 @@
       for (const god in scores) {
           if (scores.hasOwnProperty(god)) {
               scores[god] = 0;
-          }
-      }
-      userAnswers.forEach(answer => {
-          if (answer) {
+            }
+        }
+        userAnswers.forEach(answer => {
+            if (answer) {
             scores[answer.type] = (scores[answer.type] || 0) + 1;
           }
       });
@@ -955,7 +1000,9 @@
         <h2>${translations[lang].resultPrefix} ${g.name[lang]}</h2>
         <img src="${g.img}" alt="${finalGod}" />
         <p>${g.desc[lang]}</p>
+        <p class="reason-text">${translations[lang].reasonPrefix} ${g.reason[lang]}</p>
         <button onclick="restartQuiz()">${translations[lang].restartBtn}</button>
+        <a href="${g.source}" target="_blank" class="source-link">${translations[lang].sourceLinkText}</a>
       `;
     }
 
@@ -1006,7 +1053,33 @@
         detailGodDesc.textContent = god.desc[lang];
     }
 
+    // --- Fireworks Function ---
+    function triggerFireworks() {
+      const duration = 5 * 1000;
+      const animationEnd = Date.now() + duration;
+      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
+
+      function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      const interval = setInterval(function() {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+          return clearInterval(interval);
+        }
+
+        const particleCount = 50 * (timeLeft / duration);
+        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+      }, 250);
+    }
+
+
+    // Initial load
     showSection('quiz');
+    updateTransparency();
   </script>
 </body>
 </html>
