@@ -1,1085 +1,1134 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Greek God Quiz & History</title>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;700&family=Roboto:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
-  <style>
-    /* CSS Variables (Theme Colors for Formal Look) */
-    :root {
-      --bg-color: #f8f9fa; /* Very light gray, will be partially obscured by background image */
-      --text-color: #343a40; /* Dark charcoal - Keep readable */
-      --card-color: rgba(255, 255, 255, 0.85); /* Slightly transparent white for cards */
-      --button-color: #e9ecef; /* Light gray button */
-      --button-border: #ced4da; /* Medium gray border */
-      --button-hover: #D4AF37; /* Golden yellow for hover */
-      --button-text-hover: #ffffff; /* White text on hover */
-      --header-color: #D4AF37; /* Golden yellow for headers */
-      --shadow-color: rgba(0, 0, 0, 0.08); /* Subtle shadow */
-      --progress-bar-bg: #e2e6ea;
-      --progress-bar-fill: #D4AF37; /* Golden yellow for progress bar */
-      --selected-answer-bg: #cfe2ff; /* Light blue for selected answer (can be changed to gold if preferred) */
-      --selected-answer-border: #D4AF37; /* Golden yellow border for selected answer */
-      --nav-bg-color: rgba(52, 58, 64, 0.9); /* Dark navy for nav bar, slightly transparent */
-      --nav-text-color: #ffffff; /* White text for nav bar */
-      --nav-hover-color: #D4AF37; /* Golden yellow hover for nav items */
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greek God Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <style>
+        /* Basic Reset & Body Styles */
+        :root {
+            --primary-color: #EAA64D; /* Dark Purple */
+            --secondary-color: #ffd700; /* Gold */
+            --text-color: #333;
+            --bg-color: #f4f4f4;
+            --card-color: rgba(255, 255, 255, 0.85); /* Light with transparency */
+            --nav-bg-color: rgba(52, 58, 64, 0.9); /* Darker grey with transparency */
+            --button-bg: var(--primary-color);
+            --button-text: white;
+            --button-hover-bg: #000000; /* Slightly lighter purple */
+            --border-color: #ddd;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
 
-    [data-theme="dark"] {
-      --bg-color: #212529; /* Dark gray background, will be partially obscured */
-      --text-color: #f8f9fa; /* Light white text - Keep readable */
-      --card-color: rgba(52, 58, 64, 0.85); /* Darker card background, slightly transparent */
-      --button-color: #495057; /* Medium dark gray button */
-      --button-border: #6c757d; /* Lighter gray border */
-      --button-hover: #FFD700; /* Brighter Golden yellow for dark theme hover */
-      --button-text-hover: #212529; /* Dark text on hover for contrast */
-      --header-color: #FFD700; /* Brighter Golden yellow for dark theme headers */
-      --shadow-color: rgba(0, 0, 0, 0.3); /* More visible shadow for dark theme */
-      --progress-bar-bg: #495057;
-      --progress-bar-fill: #FFD700; /* Brighter Golden yellow for progress bar in dark theme */
-      --selected-answer-bg: #004085; /* Darker blue for selected in dark mode (can be changed to gold if preferred) */
-      --selected-answer-border: #FFD700; /* Brighter Golden yellow border for selected in dark mode */
-      --nav-bg-color: rgba(26, 26, 26, 0.9); /* Even darker for nav bar in dark theme, slightly transparent */
-      --nav-text-color: #e0e0e0; /* Lighter text for nav bar */
-      --nav-hover-color: #FFD700; /* Brighter Golden yellow hover for nav items */
-    }
+        [data-theme="dark"] {
+            --primary-color: #EAA64D; /* Lighter Purple for dark mode */
+            --secondary-color: #f0c300; /* Slightly darker gold */
+            --text-color: #e0e0e0;
+            --bg-color: #121212;
+            --card-color: rgba(52, 58, 64, 0.85); /* Dark grey with transparency */
+            --nav-bg-color: rgba(26, 26, 26, 0.9); /* Even darker grey with transparency */
+            --button-bg: #EAA64D; /* Purple */
+            --button-text: white;
+            --button-hover-bg: #50221a; /* Lighter purple */
+            --border-color: #444;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+        }
 
-    body {
-      font-family: 'IBM Plex Sans Thai', 'Roboto', 'Noto Sans SC', sans-serif;
-      background-image: url('image_248efd.png'); /* Set background image */
-      background-size: cover; /* Cover the entire background area */
-      background-position: center center; /* Center the image */
-      background-repeat: no-repeat; /* Do not repeat the image */
-      background-attachment: fixed; /* Make the background image fixed when scrolling */
-      color: var(--text-color);
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      position: relative;
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    /* Navigation Bar */
-    .navbar {
-      width: 100%;
-      background-color: var(--nav-bg-color); /* Now slightly transparent */
-      padding: 1rem 0;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      display: flex;
-      justify-content: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: var(--bg-color) url('https://upload.wikimedia.org/wikipedia/commons/b/b3/Mount_Olympus_Macedonia_Greece.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 60px; /* Space for fixed navbar */
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
 
-    .navbar-links {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      gap: 2.5rem;
-    }
+        .container {
+            background-color: var(--card-color);
+            border-radius: 15px;
+            box-shadow: 0 8px 25px var(--shadow-color);
+            padding: 30px;
+            margin: 20px auto;
+            max-width: 800px;
+            width: 90%;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
 
-    .navbar-links li a {
-      color: var(--nav-text-color);
-      text-decoration: none;
-      font-size: 1.1rem;
-      font-weight: 500;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      transition: background-color 0.2s ease, color 0.2s ease;
-    }
+        /* Navigation Bar */
+        .navbar {
+            width: 100%;
+            background-color: var(--nav-bg-color);
+            padding: 10px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px var(--shadow-color);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-    .navbar-links li a:hover,
-    .navbar-links li a.active {
-      background-color: var(--nav-hover-color);
-      color: var(--button-text-hover);
-    }
-    
-    /* Global Container Styles */
-    .container {
-      max-width: 800px;
-      width: 100%;
-      background: var(--card-color); /* Now slightly transparent */
-      border-radius: 8px;
-      padding: 2.5rem;
-      box-shadow: 0 4px 12px var(--shadow-color);
-      text-align: center;
-      z-index: 1;
-      border: 1px solid var(--button-border);
-      margin-top: 2rem;
-      margin-bottom: 2rem;
-    }
+        .nav-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 20px;
+        }
 
-    h1 {
-      font-family: 'Roboto', 'Noto Sans SC', sans-serif;
-      font-size: 2.2rem;
-      color: var(--header-color);
-      margin-bottom: 1.8rem;
-      text-shadow: none;
-      font-weight: 700;
-    }
+        .nav-links li a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
 
-    .question-box {
-      font-size: 1.2rem;
-      margin: 1.5rem 0 2rem;
-      font-weight: 500;
-      line-height: 1.6;
-      color: var(--text-color);
-      text-align: left;
-    }
+        .nav-links li a:hover,
+        .nav-links li a.active {
+            background-color: var(--primary-color);
+            color: var(--button-text);
+        }
 
-    .answers {
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-      margin-top: 1.5rem;
-    }
+        .navbar-controls {
+            position: absolute;
+            right: 20px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
 
-    button {
-      background: var(--button-color);
-      border: 1px solid var(--button-border);
-      padding: 0.9rem 1.2rem;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.2s ease-in-out;
-      color: var(--text-color);
-      font-size: 1.05rem;
-      font-weight: 400;
-      text-align: left;
-      width: 100%;
-    }
+        .navbar-controls select,
+        .navbar-controls button {
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-color);
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
-    button:hover {
-      background: var(--button-hover);
-      color: var(--button-text-hover);
-      border-color: var(--button-hover);
-      transform: translateY(-1px);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
+        .navbar-controls select:hover,
+        .navbar-controls button:hover {
+            background-color: var(--button-hover-bg);
+            color: var(--button-text);
+            border-color: var(--button-hover-bg);
+        }
 
-    button.selected {
-      background-color: var(--selected-answer-bg);
-      border-color: var(--selected-answer-border);
-      color: var(--text-color);
-      font-weight: 500;
-    }
-    [data-theme="dark"] button.selected {
-      color: var(--text-color);
-    }
+        /* Quiz Section */
+        #quiz-section h1 {
+            font-family: 'Merriweather', serif;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            font-size: 2.5em;
+        }
 
-    #result {
-      margin-top: 3rem;
-      text-align: center;
-    }
+        #question-box {
+            font-size: 1.4em;
+            margin-bottom: 30px;
+            color: var(--text-color);
+            font-weight: 600;
+        }
 
-    #result h2 {
-      font-family: 'Roboto', 'Noto Sans SC', sans-serif;
-      color: var(--header-color);
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-      font-weight: 700;
-    }
+        #buttons {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
 
-    #result img {
-      max-width: 200px;
-      height: auto;
-      border-radius: 50%;
-      border: 3px solid var(--button-border);
-      box-shadow: 0 2px 8px var(--shadow-color);
-      margin: 1.5rem 0;
-      object-fit: cover;
-      width: 200px;
-      height: 200px;
-    }
+        #buttons button {
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            border: none;
+            border-radius: 10px;
+            padding: 15px 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 8px var(--shadow-color);
+        }
 
-    #result p {
-      font-size: 1.1rem;
-      line-height: 1.5;
-      margin-bottom: 1.5rem;
-      color: var(--text-color);
-    }
-    
-    #result .reason-text { /* เพิ่มสไตล์สำหรับเหตุผล */
-        font-size: 1.05rem;
-        margin-bottom: 1rem;
-        font-weight: 500;
-        color: var(--text-color);
-    }
+        #buttons button:hover {
+            background-color: var(--button-hover-bg);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px var(--shadow-color);
+        }
 
-    #result .source-link { /* เพิ่มสไตล์สำหรับลิงก์ */
-        font-size: 0.9rem;
-        margin-top: 1.5rem;
-        color: #6c757d; /* สีเทาสำหรับลิงก์ */
-        text-decoration: none;
-        display: block; /* ทำให้ขึ้นบรรทัดใหม่ */
-    }
-    #result .source-link:hover {
-        text-decoration: underline;
-        color: var(--header-color);
-    }
+        #buttons button.selected {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(255, 215, 0, 0.4);
+        }
 
+        .quiz-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
 
-    .top-controls {
-      display: flex;
-      justify-content: flex-end;
-      width: 100%;
-      max-width: 800px;
-      margin-top: 1rem;
-      margin-bottom: 0.5rem;
-      gap: 1rem;
-      z-index: 1;
-    }
+        .quiz-navigation button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
-    .top-controls select, .top-controls button {
-      padding: 0.5rem 0.8rem;
-      border-radius: 5px;
-      border: 1px solid var(--button-border);
-      background: var(--card-color);
-      color: var(--text-color);
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: all 0.2s ease-in-out;
-      box-shadow: 0 1px 3px var(--shadow-color);
-    }
+        .quiz-navigation button:hover {
+            background-color: var(--button-hover-bg);
+        }
 
-    .top-controls select:hover, .top-controls button:hover {
-      background: var(--button-hover);
-      color: var(--button-text-hover);
-      border-color: var(--button-hover);
-    }
+        #progress-indicator {
+            font-size: 0.9em;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
 
-    .quiz-navigation {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 2rem;
-        padding-top: 1.5rem;
-        border-top: 1px solid var(--button-border);
-    }
+        /* Result Section */
+        #result {
+            margin-top: 20px;
+        }
 
-    .quiz-navigation button {
-        flex: 1;
-        margin: 0 0.5rem;
-        text-align: center;
-    }
-    .quiz-navigation button:first-child { margin-left: 0; }
-    .quiz-navigation button:last-child { margin-right: 0; }
+        #result h2 {
+            font-family: 'Merriweather', serif;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 2em;
+        }
 
-    .progress-indicator {
-        font-size: 0.95rem;
-        color: var(--text-color);
-        margin-bottom: 1rem;
-        text-align: right;
-    }
+        #result img {
+            max-width: 250px;
+            border-radius: 50%;
+            border: 5px solid var(--secondary-color);
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
 
-    /* History Section Styles */
-    #history-container {
-      display: none;
-      text-align: left;
-    }
+        #result p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: var(--text-color);
+        }
 
-    #history-container h2 {
-      font-family: 'Roboto', 'Noto Sans SC', sans-serif;
-      font-size: 2rem;
-      color: var(--header-color);
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
+        .reason-text {
+            font-style: italic;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
 
-    .god-card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1.5rem;
-      padding: 1rem 0;
-    }
+        #result button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px var(--shadow-color);
+        }
 
-    .god-card {
-      background-color: var(--button-color);
-      border: 1px solid var(--button-border);
-      border-radius: 8px;
-      padding: 1.2rem;
-      text-align: center;
-      transition: all 0.2s ease;
-      cursor: pointer;
-      box-shadow: 0 2px 5px var(--shadow-color);
-    }
+        #result button:hover {
+            background-color: var(--button-hover-bg);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px var(--shadow-color);
+        }
 
-    .god-card:hover {
-      background-color: var(--button-hover);
-      color: var(--button-text-hover);
-      border-color: var(--button-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    }
+        .source-link {
+            display: block;
+            margin-top: 15px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9em;
+            opacity: 0.8;
+            transition: opacity 0.3s ease, color 0.3s ease;
+        }
 
-    .god-card img {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 0.8rem;
-      border: 2px solid var(--button-border);
-    }
-    [data-theme="dark"] .god-card img {
-      border-color: var(--nav-hover-color);
-    }
+        .source-link:hover {
+            opacity: 1;
+            color: var(--secondary-color);
+        }
 
+        /* History Section */
+        #history-section h1 {
+            font-family: 'Merriweather', serif;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 2.5em;
+        }
 
-    .god-card h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-      color: inherit;
-    }
+        #history-intro {
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            color: var(--text-color);
+        }
 
-    .god-card p {
-      font-size: 0.95rem;
-      line-height: 1.4;
-      color: inherit;
-    }
+        #god-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            padding: 20px;
+        }
 
-    /* Specific God Detail View */
-    #god-detail-view {
-      display: none;
-      text-align: center;
-    }
+        .god-card {
+            background-color: var(--card-color);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
-    #god-detail-view img {
-      width: 250px;
-      height: 250px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin: 1.5rem auto;
-      border: 4px solid var(--header-color);
-      box-shadow: 0 6px 15px var(--shadow-color);
-    }
-    [data-theme="dark"] #god-detail-view img {
-      border-color: var(--nav-hover-color);
-    }
+        .god-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px var(--shadow-color);
+        }
 
-    #god-detail-view h2 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-      color: var(--header-color);
-    }
+        .god-card img {
+            max-width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid var(--secondary-color);
+            margin-bottom: 15px;
+        }
 
-    #god-detail-view p {
-      font-size: 1.15rem;
-      line-height: 1.6;
-      max-width: 600px;
-      margin: 0 auto 2rem auto;
-    }
+        .god-card h3 {
+            font-family: 'Merriweather', serif;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.5em;
+        }
 
-    #back-to-history-btn {
-      margin-top: 1.5rem;
-      padding: 0.8rem 1.5rem;
-      font-size: 1rem;
-      background: var(--button-hover);
-      color: var(--button-text-hover);
-      border-color: var(--button-hover);
-    }
-    #back-to-history-btn:hover {
-      background: var(--header-color);
-      border-color: var(--header-color);
-    }
+        .god-card p {
+            font-size: 0.95em;
+            color: var(--text-color);
+            flex-grow: 1;
+            margin-bottom: 15px;
+        }
 
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-      .container {
-        padding: 2rem 1.5rem;
-        margin-top: 1rem;
-      }
-      h1 {
-        font-size: 2rem;
-      }
-      .question-box {
-        font-size: 1.1rem;
-      }
-      button {
-        font-size: 1rem;
-        padding: 0.8rem 1rem;
-      }
-      .quiz-navigation {
-        flex-direction: column;
-        gap: 1rem;
-      }
-      .quiz-navigation button {
-        margin: 0;
-      }
-      .top-controls {
-        flex-direction: column;
-        align-items: flex-end;
-        gap: 0.8rem;
-        margin-top: 0.5rem;
-      }
-      .top-controls select, .top-controls button {
-        width: auto;
-      }
-      .navbar-links {
-        gap: 1.5rem;
-      }
-      .navbar-links li a {
-        font-size: 1rem;
-        padding: 0.5rem 0.8rem;
-      }
-      .god-card-grid {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      }
-      #god-detail-view img {
-        width: 180px;
-        height: 180px;
-      }
-      #god-detail-view h2 {
-        font-size: 2rem;
-      }
-      #god-detail-view p {
-        font-size: 1rem;
-      }
-    }
+        .god-card .source-link {
+            font-size: 0.8em;
+            margin-top: 10px;
+        }
 
-    @media (max-width: 480px) {
-      body {
-        padding: 0;
-      }
-      .container {
-        padding: 1rem;
-        margin-top: 0.5rem;
-      }
-      h1 {
-        font-size: 1.8rem;
-      }
-      .question-box {
-        font-size: 1rem;
-      }
-      #result img {
-        max-width: 150px;
-        width: 150px;
-        height: 150px;
-      }
-      .navbar {
-        padding: 0.8rem 0;
-      }
-      .navbar-links {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 0.8rem;
-      }
-      .navbar-links li a {
-        font-size: 0.9rem;
-        padding: 0.4rem 0.7rem;
-      }
-      .god-card-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+        /* God Detail View */
+        #god-detail-view {
+            text-align: center;
+        }
+
+        #god-detail-view h2 {
+            font-family: 'Merriweather', serif;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 2.2em;
+        }
+
+        #god-detail-view img {
+            max-width: 300px;
+            border-radius: 50%;
+            border: 6px solid var(--secondary-color);
+            margin-bottom: 25px;
+            box-shadow: 0 6px 20px var(--shadow-color);
+        }
+
+        #god-detail-view p {
+            font-size: 1.15em;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            color: var(--text-color);
+        }
+
+        #back-to-history-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 8px var(--shadow-color);
+            margin-top: 20px;
+        }
+
+        #back-to-history-btn:hover {
+            background-color: var(--button-hover-bg);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px var(--shadow-color);
+        }
+
+        .detail-source-link {
+            display: block;
+            margin-top: 15px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 1em;
+            opacity: 0.8;
+            transition: opacity 0.3s ease, color 0.3s ease;
+        }
+        .detail-source-link:hover {
+            opacity: 1;
+            color: var(--secondary-color);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 15px auto;
+            }
+
+            #quiz-section h1, #history-section h1 {
+                font-size: 2em;
+            }
+
+            #question-box {
+                font-size: 1.2em;
+            }
+
+            #buttons button {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+
+            #result h2, #god-detail-view h2 {
+                font-size: 1.8em;
+            }
+
+            #result img, #god-detail-view img {
+                max-width: 200px;
+            }
+
+            #god-card-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding-top: 50px;
+            }
+            .navbar {
+                padding: 8px 0;
+            }
+            .nav-links {
+                gap: 10px;
+            }
+            .nav-links li a {
+                padding: 6px 10px;
+                font-size: 0.9em;
+            }
+            .navbar-controls {
+                right: 10px;
+                gap: 10px;
+            }
+            .navbar-controls select,
+            .navbar-controls button {
+                padding: 3px 8px;
+                font-size: 0.9em;
+            }
+
+            .container {
+                padding: 15px;
+                width: 95%;
+            }
+
+            #quiz-section h1, #history-section h1 {
+                font-size: 1.8em;
+            }
+
+            #question-box {
+                font-size: 1.1em;
+            }
+
+            #buttons button {
+                padding: 10px 15px;
+                font-size: 0.95em;
+            }
+
+            #result h2, #god-detail-view h2 {
+                font-size: 1.5em;
+            }
+
+            #result img, #god-detail-view img {
+                max-width: 150px;
+            }
+
+            #result p, #god-detail-view p {
+                font-size: 1em;
+            }
+
+            #result button, #back-to-history-btn {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+
+            .god-card img {
+                max-width: 100px;
+                height: 100px;
+            }
+
+            .god-card h3 {
+                font-size: 1.3em;
+            }
+        }
+    </style>
 </head>
-<body data-theme="light">
+<body>
 
-  <nav class="navbar">
-    <ul class="navbar-links">
-      <li><a href="#" id="quiz-nav-link" class="active" onclick="showSection('quiz')">Quiz</a></li>
-      <li><a href="#" id="history-nav-link" onclick="showSection('history')">History</a></li>
-    </ul>
-  </nav>
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="#" id="quiz-nav-link" class="active" onclick="showSection('quiz')">Quiz</a></li>
+            <li><a href="#" id="history-nav-link" onclick="showSection('history')">God History</a></li>
+        </ul>
+        <div class="navbar-controls">
+            <select id="langToggle">
+                <option value="en">English</option>
+                <option value="th">ไทย</option>
+                <option value="zh">中文</option>
+            </select>
+            <button onclick="toggleTheme()">Theme</button>
+        </div>
+    </nav>
 
-  <div class="top-controls">
-    <select id="langToggle">
-      <option value="th">ภาษาไทย</option>
-      <option value="en">English</option>
-      <option value="zh">简体中文</option>
-    </select>
-    <button onclick="toggleTheme()">Toggle Theme</button>
-  </div>
-
-  <div id="quiz-section" class="container">
-    <h1 id="quiz-title">คุณเป็นเทพเจ้าองค์ใดในตำนานกรีก?</h1>
-    <div id="quiz-container">
-      <div class="progress-indicator" id="progress-indicator"></div>
-      <div class="question-box" id="question-box"></div>
-      <div class="answers" id="buttons"></div>
-      <div class="quiz-navigation">
-        <button id="prev-btn" onclick="prevQuestion()" style="display: none;">ย้อนกลับ</button>
-        <button id="next-btn" onclick="nextQuestion()" style="display: none;">ถัดไป</button>
-      </div>
+    <div class="container" id="quiz-section">
+        <h1 id="quiz-title">Which Greek God Are You?</h1>
+        <div id="quiz-container">
+            <div id="question-box"></div>
+            <div id="buttons"></div>
+            <div class="quiz-navigation">
+                <button id="prev-btn" onclick="prevQuestion()"></button>
+                <span id="progress-indicator"></span>
+            </div>
+        </div>
+        <div id="result"></div>
     </div>
-    <div id="result"></div>
-  </div>
 
-  <div id="history-section" class="container" style="display: none;">
-    <h1 id="history-title">ประวัติเทพเจ้ากรีก</h1>
-    <div id="history-container">
-      <p id="history-intro"></p>
-      <div class="god-card-grid" id="god-card-grid">
+    <div class="container" id="history-section" style="display: none;">
+        <h1 id="history-title">History of Greek Gods</h1>
+        <p id="history-intro">Click on each god to learn more.</p>
+        <div id="god-card-grid">
+            </div>
+
+        <div id="god-detail-view" style="display: none;">
+            <img id="detail-god-img" src="" alt="">
+            <h2 id="detail-god-name"></h2>
+            <p id="detail-god-desc"></p>
+            <a id="detail-god-source" href="" target="_blank" class="detail-source-link"></a>
+            <button id="back-to-history-btn" onclick="showHistoryList()"></button>
         </div>
     </div>
-    <div id="god-detail-view" style="display: none;">
-        <img id="detail-god-img" src="" alt="">
-        <h2 id="detail-god-name"></h2>
-        <p id="detail-god-desc"></p>
-        <button id="back-to-history-btn" onclick="showHistoryList()">กลับสู่หน้ารายชื่อเทพ</button>
-    </div>
-  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-
-  <script>
-    const translations = {
-      th: {
-        title: "คุณเป็นเทพเจ้าองค์ใดในตำนานกรีก?",
-        resultPrefix: "คุณเหมือนกับเทพเจ้า",
-        reasonPrefix: "เพราะว่าคุณเป็นคน",
-        prevBtn: "ย้อนกลับ",
-        nextBtn: "ถัดไป",
-        restartBtn: "เริ่มใหม่",
-        progressText: "คำถามที่ {current} จาก {total}",
-        quizNavLink: "ควิซ",
-        historyNavLink: "ประวัติเทพเจ้า",
-        historyTitle: "ประวัติเทพเจ้ากรีก",
-        historyIntro: "คลิกที่เทพเจ้าแต่ละองค์เพื่อดูรายละเอียดเพิ่มเติม",
-        backToHistoryBtn: "กลับสู่หน้ารายชื่อเทพ",
-        cannotProcessResult: "ไม่สามารถประมวลผลผลลัพธ์ได้",
-        sourceLinkText: "แหล่งอ้างอิงข้อมูลเทพเจ้า: Wikipedia"
-      },
-      en: {
-        title: "Which Greek God Are You?",
-        resultPrefix: "You are like the god",
-        reasonPrefix: "Because you are",
-        prevBtn: "Previous",
-        nextBtn: "Next",
-        restartBtn: "Restart Quiz",
-        progressText: "Question {current} of {total}",
-        quizNavLink: "Quiz",
-        historyNavLink: "God History",
-        historyTitle: "History of Greek Gods",
-        historyIntro: "Click on each god to learn more.",
-        backToHistoryBtn: "Back to God List",
-        cannotProcessResult: "Cannot process result",
-        sourceLinkText: "God data source: Wikipedia"
-      },
-      zh: {
-        title: "你是希腊神话中的哪位神?",
-        resultPrefix: "你像希腊神话中的",
-        reasonPrefix: "因为你是一个",
-        prevBtn: "上一题",
-        nextBtn: "下一题",
-        restartBtn: "重新开始",
-        progressText: "第 {current} 题 共 {total} 题",
-        quizNavLink: "测验",
-        historyNavLink: "神话历史",
-        historyTitle: "希腊神话历史",
-        historyIntro: "点击每位神灵了解更多信息。",
-        backToHistoryBtn: "返回神灵列表",
-        cannotProcessResult: "无法处理结果",
-        sourceLinkText: "神灵数据来源：维基百科"
-      }
-    };
-
-    const godData = {
-      Zeus: { name: { th: "ซูส", en: "Zeus", zh: "宙斯" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Zeus_Capitoline_Museums.jpg/300px-Zeus_Capitoline_Museums.jpg", desc: { th: "เทพแห่งสายฟ้าและราชาแห่งเทพเจ้าผู้ปกครองเขาโอลิมปัส เป็นผู้ควบคุมสภาพอากาศและสัญลักษณ์ของอำนาจ ความยุติธรรม และกฎระเบียบ เขามักถูกวาดภาพคู่กับสายฟ้าและนกอินทรี", en: "God of thunder and king of the gods, ruler of Mount Olympus. He controls weather and symbolizes power, justice, and order. He is often depicted with a lightning bolt and an eagle.", zh: "雷电之神，奥林匹斯山之王。他掌控天气，象征着权力、正义和秩序。他常被描绘成手持闪电，身边伴有老鹰。" }, reason: { th: "มีภาวะผู้นำ, เด็ดขาด, และรักความยุติธรรม", en: "a decisive, powerful leader who values justice", zh: "果断、强大、重视正义的领导者" }, source: "https://th.wikipedia.org/wiki/%E0%B8%8B%E0%B8%B9%E0%B8%AA" },
-      Hera: { name: { th: "เฮร่า", en: "Hera", zh: "赫拉" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Hera_Ludovisi_Altemps_Inv8607.jpg/300px-Hera_Ludovisi_Altemps_Inv8607.jpg", desc: { th: "เทพีแห่งการแต่งงาน สตรี การคลอดบุตร และครอบครัว เป็นราชินีแห่งโอลิมปัสและภรรยาของซูส เธอมักถูกวาดภาพด้วยมงกุฎและคทา", en: "Goddess of marriage, women, childbirth, and family. She is the Queen of Olympus and wife of Zeus. She is often depicted with a diadem and a scepter.", zh: "婚姻、妇女、生育和家庭女神，奥林匹斯山女王，宙斯的妻子。她常被描绘成头戴王冠，手持权杖。" }, reason: { th: "รักครอบครัว, มีความภักดี, และเป็นผู้ปกป้อง", en: "loyal, protective, and deeply devoted to family", zh: "忠诚、有保护欲、非常顾家" }, source: "https://th.wikipedia.org/wiki/%E0%B9%80%E0%B8%AE%E0%B8%A3%E0%B9%88%E0%B8%B2" },
-      Poseidon: { name: { th: "โพไซดอน", en: "Poseidon", zh: "波塞冬" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Poseidon_National_Archaeological_Museum_Athens_N_235_IMG_8604.jpg/300px-Poseidon_National_Archaeological_Museum_Athens_N_235_IMG_8604.jpg", desc: { th: "เทพแห่งท้องทะเล แผ่นดินไหว และม้า เป็นพี่ชายของซูสและฮาเดส เขามีอารมณ์รุนแรงและมักถูกวาดภาพคู่กับตรีศูล", en: "God of the sea, earthquakes, and horses. He is a brother of Zeus and Hades, known for his violent temper and is often depicted with a trident.", zh: "海洋、地震和马匹之神，宙斯和哈迪斯的兄弟。他性情暴躁，常被描绘成手持三叉戟。" }, reason: { th: "รักอิสระ, มีพลังขับเคลื่อน, และอาจมีอารมณ์ที่รุนแรง", en: "free-spirited, powerful, and sometimes tempestuous", zh: "热爱自由、力量强大，有时性情暴躁" }, source: "https://th.wikipedia.org/wiki/%E0%B9%82%E0%B8%9E%E0%B9%84%E0%B8%8B%E0%B8%94%E0%B8%AD%E0%B8%99" },
-      Demeter: { name: { th: "ดีมีเทอร์", en: "Demeter", zh: "得墨忒耳" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Demeter_Altemps_Inv8596.jpg/300px-Demeter_Altemps_Inv8596.jpg", desc: { th: "เทพีแห่งการเกษตร การเก็บเกี่ยว ความอุดมสมบูรณ์ และกฎแห่งธรรมชาติ เป็นผู้ให้กำเนิดพืชผลและอาหารแก่มนุษย์ เธอเป็นเทพีที่ใจดีและรักการดูแล", en: "Goddess of agriculture, harvest, fertility, and sacred law. She is the giver of grain and food to mankind. She is a kind and nurturing goddess.", zh: "农业、收获、丰饶和自然法则女神，为人类提供谷物和食物。她是一位仁慈且富有母性的女神。" }, reason: { th: "ใจดี, มีความเมตตา, และรักการดูแลผู้อื่น", en: "kind, nurturing, and compassionate towards others", zh: "善良、有爱心、乐于照顾他人" }, source: "https://th.wikipedia.org/wiki/%E0%B8%94%E0%B8%B5%E0%B8%A1%E0%B8%B5%E0%B9%80%E0%B8%97%E0%B8%AD%E0%B8%A3%E0%B9%8C" },
-      Athena: { name: { th: "อธีนา", en: "Athena", zh: "雅典娜" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Pallas_Athena.jpg/300px-Pallas_Athena.jpg", desc: { th: "เทพีแห่งปัญญา สงครามยุทธวิธี งานฝีมือ และศิลปะ เธอเกิดจากศีรษะของซูสอย่างเต็มตัวและติดอาวุธ เป็นผู้กล้าหาญและรอบรู้", en: "Goddess of wisdom, strategic warfare, handicrafts, and art. She was born fully grown and armed from Zeus's head. She is brave and highly knowledgeable.", zh: "智慧、策略性战争、手工艺和艺术女神。她从宙斯的头颅中全副武装地诞生。她勇敢而博学多才。" }, reason: { th: "ชาญฉลาด, มีเหตุผล, และวางแผนเก่ง", en: "wise, strategic, and logical in your approach", zh: "聪明、有策略、理性" }, source: "https://th.wikipedia.org/wiki/%E0%B8%AD%E0%B8%98%E0%B8%B5%E0%B8%99า" },
-      Apollo: { name: { th: "อะพอลโล", en: "Apollo", zh: "阿波罗" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Apollon_Pio-Clementino_Inv1436.jpg/300px-Apollon_Pio-Clementino_Inv1436.jpg", desc: { th: "เทพแห่งดนตรี กวีนิพนธ์ แสง การรักษาโรค และการพยากรณ์ เป็นผู้นำของเหล่ามิวส์และเป็นเทพแห่งความงามและสมดุล", en: "God of music, poetry, light, healing, and prophecy. He is the leader of the Muses and a god of beauty and balance.", zh: "音乐、诗歌、光明、治疗和预言之神。他是缪斯女神的领袖，是美与平衡的象征。" }, reason: { th: "มีศิลปะในหัวใจ, ชอบความสวยงาม, และมองโลกในแง่ดี", en: "artistic, appreciative of beauty, and optimistic", zh: "有艺术气息、热爱美、乐观" }, source: "https://th.wikipedia.org/wiki/%E0%B8%AD%E0%B8%B0%E0%B8%9E%E0%B8%AD%E0%B8%A5%E0%B9%82%E0%B8%A5" },
-      Artemis: { name: { th: "อาร์เทมิส", en: "Artemis", zh: "阿耳忒弥斯" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Diana_of_Versailles_Leochares_Louvre_Ma589_n2.jpg/300px-Diana_of_Versailles_Leochares_Louvre_Ma589_n2.jpg", desc: { th: "เทพีแห่งการล่า ป่า สัตว์ป่า และดวงจันทร์ เป็นเทพีพรหมจารีและผู้พิทักษ์ธรรมชาติ เธอเป็นอิสระและรักอิสรภาพ", en: "Goddess of the hunt, wilderness, wild animals, and the moon. She is a virgin goddess and protector of nature. She is independent and loves freedom.", zh: "狩猎、荒野、野生动物和月亮女神。她是一位贞洁的女神，也是大自然的守护者。她独立且热爱自由。" }, reason: { th: "รักอิสระ, มีความมุ่งมั่น, และรักธรรมชาติ", en: "independent, determined, and connected to nature", zh: "独立、坚定、热爱大自然" }, source: "https://th.wikipedia.org/wiki/%E0%B8%AD%E0%B8%B2%E0%B8%A3%E0%B9%8C%E0%B9%80%E0%B8%97%E0%B8%A1%E0%B8%B4%E0%B8%AA" },
-      Ares: { name: { th: "แอรีส", en: "Ares", zh: "阿瑞斯" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Ares_Ludovisi_Altemps_Inv8602.jpg/300px-Ares_Ludovisi_Altemps_Inv8602.jpg", desc: { th: "เทพแห่งสงคราม การต่อสู้ และความโหดร้าย เป็นบุตรชายของซูสและเฮร่า เขากล้าหาญ ดุดัน และไม่กลัวสิ่งใด", en: "God of war, battle, and brutality. He is the son of Zeus and Hera, known for his bravery, aggression, and fearlessness.", zh: "战争、战斗和残暴之神。他常被描绘成手持闪电，身边伴有老鹰。" }, reason: { th: "กล้าหาญ, ตรงไปตรงมา, และไม่กลัวความท้าทาย", en: "brave, direct, and fearless in the face of challenges", zh: "勇敢、直接、无畏挑战" }, source: "https://th.wikipedia.org/wiki/%E0%B9%81%E0%B8%AD%E0%B8%A3%E0%B8%B5%E0%B8%AA" },
-      Aphrodite: { name: { th: "อโฟรไดท์", en: "Aphrodite", zh: "阿佛洛狄忒" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Aphrodite_of_Knidos_Altemps_Inv8619.jpg/300px-Aphrodite_of_Knidos_Altemps_Inv8619.jpg", desc: { th: "เทพีแห่งความรัก ความงาม ความสุข และความเจริญรุ่งเรือง เธอเกิดจากฟองคลื่นทะเล มีเสน่ห์และรักสันติ", en: "Goddess of love, beauty, pleasure, and procreation. Born from the sea foam, she is charming and peaceful.", zh: "爱、美、快乐和繁殖女神。她诞生于海浪泡沫中，迷人且热爱和平。" }, reason: { th: "มีเสน่ห์, รักความงาม, และชื่นชอบความสัมพันธ์ที่ดี", en: "charming, graceful, and value love and beauty", zh: "有魅力、爱美、重视良好关系" }, source: "https://th.wikipedia.org/wiki/%E0%B8%AD%E0%B8%B0%E0%B9%82%E0%B8%9F%E0%B8%A3%E0%B9%84%E0%B8%94%E0%B8%97%E0%B8%B5" },
-      Hephaestus: { name: { th: "เฮเฟสทัส", en: "Hephaestus", zh: "赫菲斯托斯" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Vulcan_Capitoline_Museums.jpg/300px-Vulcan_Capitoline_Museums.jpg", desc: { th: "เทพแห่งไฟ โลหะ การช่างฝีมือ และภูเขาไฟ เป็นช่างตีเหล็กแห่งเทพเจ้าผู้สร้างสรรค์สิ่งประดิษฐ์อันงดงาม เขามีความขยันและสร้างสรรค์", en: "God of fire, metalworking, craftsmanship, and volcanoes. He is the blacksmith of the gods, creating beautiful artifacts. He is diligent and creative.", zh: "火、金属加工、手工艺和火山之神。他勤奋且富有创造力。" }, reason: { th: "สร้างสรรค์, มีความมุ่งมั่น, และชอบประดิษฐ์สิ่งใหม่ๆ", en: "creative, diligent, and enjoy building new things", zh: "有创造力、勤奋、喜欢创造新事物" }, source: "https://th.wikipedia.org/wiki/%E0%B9%80%E0%B8%AE%E0%B9%80%E0%B8%9F%E0%B8%AA%E0%B8%97%E0%B8%B1%E0%B8%AA" },
-      Hermes: { name: { th: "เฮอร์มีส", en: "Hermes", zh: "赫尔墨斯" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Hermes_Ingenui_Pio-Clementino_Inv1436.jpg/300px-Hermes_Ingenui_Pio-Clementino_Inv1436.jpg", desc: { th: "เทพแห่งการสื่อสาร การเดินทาง โจร และนักกีฬา เป็นผู้ส่งสารของเทพเจ้าและเป็นผู้คุ้มครองการค้าและคนเดินทาง เขาว่องไวและเจ้าเล่ห์", en: "God of communication, travel, thieves, and athletes. He is the messenger of the gods and protector of trade and travelers. He is swift and clever.", zh: "信息、旅行、小偷和运动员之神。他敏捷而狡黠，是众神的信使，商业和旅行者的守护神。" }, reason: { th: "ฉลาดเฉลียว, ปรับตัวเก่ง, และชอบการเดินทางหรือการสื่อสาร", en: "witty, adaptable, and a great communicator or traveler", zh: "机智、适应性强、善于沟通或旅行" }, source: "https://th.wikipedia.org/wiki/%E0%B9%80%E0%B8%AE%E0%B8%AD%E0%B8%A3%E0%B9%8C%E0%B8%A1%E0%B8%B5%E0%B8%AA" },
-      Hades: { name: { th: "ฮาเดส", en: "Hades", zh: "哈迪斯" }, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Hades_with_Cerberus_-_Altemps_Inv8599.jpg/300px-Hades_with_Cerberus_-_Altemps_Inv8599.jpg", desc: { th: "เทพแห่งยมโลกและความมั่งคั่งจากใต้ดิน เป็นผู้ปกครองอาณาจักรแห่งความตาย เขามักถูกเข้าใจผิดว่าเป็นเทพแห่งความชั่วร้าย แต่จริงๆ แล้วเป็นเทพที่เงียบขรึม ทรงพลัง และยุติธรรม", en: "God of the underworld and the wealth of the earth. He rules the realm of the dead. Often misunderstood as evil, he is actually quiet, powerful, and just.", zh: "冥界和地下财富之神。他常被误解为邪恶之神，但实际上他沉默寡言、强大而公正。" }, reason: { th: "ลึกซึ้ง, เก็บตัว, และมีความยุติธรรมในแบบของตัวเอง", en: "deep, reserved, and possess a unique sense of justice", zh: "深沉、内敛、有自己独特的正义感" }, source: "https://th.wikipedia.org/wiki/%E0%B8%AE%E0%B8%B2%E0%B9%80%E0%B8%94%E0%B8%AA" }
-    };
-
-    const questionsByLang = {
-      th: [
-        { question: "คุณคิดว่าคุณเป็นคนแบบไหน?", answers: [
-          { text: "ฉลาด รอบคอบ", type: "Athena" },
-          { text: "เด็ดขาด มีอำนาจ", type: "Zeus" },
-          { text: "ใจดี ดูแลคนอื่น", type: "Demeter" },
-          { text: "เงียบขรึม รักสันโดษ", type: "Hades" }
-        ]},
-        { question: "สถานที่โปรดของคุณคือที่ไหน?", answers: [
-          { text: "ห้องสมุดหรือเวิร์คช็อป", type: "Hephaestus" },
-          { text: "ป่าเขาหรือธรรมชาติ", type: "Artemis" },
-          { text: "ชายทะเลหรือแม่น้ำ", type: "Poseidon" },
-          { text: "บนเวทีหรือคาเฟ่ศิลปะ", type: "Apollo" }
-        ]},
-        { question: "คุณชอบกิจกรรมแบบไหนมากที่สุด?", answers: [
-          { text: "การเรียนรู้หรือพัฒนาไอเดียใหม่", type: "Athena" },
-          { text: "เข้าสังคม พบปะผู้คน", type: "Hermes" },
-          { text: "จัดบ้าน ปลูกต้นไม้", type: "Demeter" },
-          { text: "ดูแลคนที่รัก", type: "Hera" }
-        ]},
-        { question: "คุณมีข้อดีเด่นด้านใด?", answers: [
-          { text: "ความกล้าหาญ", type: "Ares" },
-          { text: "ความรักและความเข้าใจ", type: "Aphrodite" },
-          { text: "ความยุติธรรม", type: "Zeus" },
-          { text: "การสื่อสาร", type: "Hermes" }
-        ]},
-        { question: "สัตว์ที่คุณรู้สึกเชื่อมโยงมากที่สุดคือ?", answers: [
-          { text: "นกฮูก", type: "Athena" },
-          { text: "หมาป่า", type: "Ares" },
-          { text: "ม้า", type: "Poseidon" },
-          { text: "แมวป่า/กวาง", type: "Artemis" }
-        ]},
-        { question: "คนรอบข้างมักบอกว่าคุณเป็นอย่างไร?", answers: [
-          { text: "ชาญฉลาด", type: "Athena" },
-          { text: "มีเสน่ห์", type: "Aphrodite" },
-          { text: "น่าเกรงขาม", type: "Hades" },
-          { text: "สนุกสนาน ตลก", type: "Hermes" }
-        ]},
-        { question: "คุณอยากมีพลังพิเศษแบบใด?", answers: [
-          { text: "ควบคุมทะเลและพายุ", type: "Poseidon" },
-          { text: "สื่อสารและเคลื่อนย้ายได้รวดเร็ว", type: "Hermes" },
-          { text: "ปลูกพืชผลได้ไม่จำกัด", type: "Demeter" },
-          { text: "เสน่ห์ที่ไม่มีใครต้านทานได้", type: "Aphrodite" }
-        ]},
-        { question: "คุณอยากเป็นที่จดจำในเรื่องใด?", answers: [
-          { text: "ปัญญาและการให้คำแนะนำ", type: "Athena" },
-          { text: "ความกล้าหาญในสงคราม", type: "Ares" },
-          { text: "ความรักและความงาม", type: "Aphrodite" },
-          { text: "การสร้างสรรค์ผลงาน", type: "Hephaestus" }
-        ]},
-        { question: "สีที่สะท้อนตัวคุณมากที่สุดคือ?", answers: [
-          { text: "ทองและเงิน", type: "Zeus" },
-          { text: "เขียวธรรมชาติ", type: "Demeter" },
-          { text: "แดงเข้มหรือบรอนซ์", type: "Ares" },
-          { text: "น้ำเงินเข้มหรือน้ำทะเล", type: "Poseidon" }
-        ]},
-        { question: "คุณจัดการกับความขัดแย้งอย่างไร?", answers: [
-          { text: "ใช้เหตุผลและพูดคุย", type: "Athena" },
-          { text: "เผชิญหน้าและแก้ปัญหาโดยตรง", type: "Ares" },
-          { text: "หลีกเลี่ยงและเฝ้าดูเงียบๆ", type: "Hades" },
-          { text: "หาวิธีสร้างสันติ", type: "Aphrodite" }
-        ]}
-      ],
-      en: [
-        { question: "How would you describe yourself?", answers: [
-          { text: "Smart and thoughtful", type: "Athena" },
-          { text: "Decisive and powerful", type: "Zeus" },
-          { text: "Kind and caring", type: "Demeter" },
-          { text: "Quiet and reserved", type: "Hades" }
-        ]},
-        { question: "What's your favorite place?", answers: [
-          { text: "Library or workshop", type: "Hephaestus" },
-          { text: "Forest or nature", type: "Artemis" },
-          { text: "Beach or river", type: "Poseidon" },
-          { text: "Stage or art cafe", type: "Apollo" }
-        ]},
-        { question: "What do you like to do in your free time?", answers: [
-          { text: "Read books", type: "Athena" },
-          { text: "Draw or play music", type: "Apollo" },
-          { text: "Cook or take care of home", type: "Demeter" },
-          { text: "Walk quietly", type: "Hades" }
-        ]},
-        { question: "What is your greatest strength?", answers: [
-          { text: "Bravery", type: "Ares" },
-          { text: "Love and empathy", type: "Aphrodite" },
-          { text: "Justice", type: "Zeus" },
-          { text: "Communication", type: "Hermes" }
-        ]},
-        { question: "Which animal do you feel most connected to?", answers: [
-          { text: "Owl", type: "Athena" },
-          { text: "Wolf", type: "Ares" },
-          { text: "Horse", type: "Poseidon" },
-          { text: "Deer", "type": "Artemis" }
-        ]},
-        { question: "How do you want people to remember you?", answers: [
-          { text: "Smart and talented", type: "Athena" },
-          { text: "Charming and lovely", type: "Aphrodite" },
-          { text: "Strong and bold", type: "Ares" },
-          { text: "Kind and understanding", type: "Demeter" }
-        ]},
-        { question: "If you could have one superpower, what would it be?", answers: [
-          { text: "Control nature", type: "Poseidon" },
-          { text: "Control fire", type: "Hephaestus" },
-          { text: "Talk to anyone", type: "Hermes" },
-          { text: "See the future", type: "Apollo" }
-        ]},
-        { question: "What do you value the most?", answers: [
-          { text: "Knowledge", type: "Athena" },
-          { text: "Freedom", type: "Artemis" },
-          { text: "Family", type: "Hera" },
-          { text: "Peace", type: "Aphrodite" }
-        ]},
-        { question: "What’s your fashion style?", answers: [
-          { text: "Elegant", type: "Hera" },
-          { text: "Casual and comfy", type: "Demeter" },
-          { text: "Trendy and bold", type: "Apollo" },
-          { text: "Simple but neat", type: "Hermes" }
-        ]},
-        { question: "How do you deal with conflict?", answers: [
-          { text: "Talk with reason", type: "Athena" },
-          { text: "Avoid and wait", type: "Hades" },
-          { text: "Solve it directly", type: "Ares" },
-          { text: "Let it flow", type: "Aphrodite" }
-        ]}
-      ],
-      zh: [
-        { question: "你认为自己是哪种类型的人？", answers: [
-          { text: "聪明，细心", type: "Athena" },
-          { text: "果断，有权威", type: "Zeus" },
-          { text: "善良，关心他人", type: "Demeter" },
-          { text: "沉默，喜欢独处", type: "Hades" }
-        ]},
-        { question: "你最喜欢的地方是哪里？", answers: [
-          { text: "图书馆或工作室", type: "Hephaestus" },
-          { text: "森林或大自然", type: "Artemis" },
-          { text: "海边或河流", type: "Poseidon" },
-          { text: "舞台或艺术咖啡馆", type: "Apollo" }
-        ]},
-        { question: "你最喜欢哪种活动？", answers: [
-          { text: "学习或发展新想法", type: "Athena" },
-          { text: "社交，结识新朋友", type: "Hermes" },
-          { text: "整理家务，种植花草", type: "Demeter" },
-          { text: "照顾所爱之人", type: "Hera" }
-        ]},
-        { question: "你有什么突出的优点？", answers: [
-          { text: "勇气", type: "Ares" },
-          { text: "爱与理解", type: "Aphrodite" },
-          { text: "公正", type: "Zeus" },
-          { text: "沟通", type: "Hermes" }
-        ]},
-        { question: "你觉得自己与哪种动物联系最紧密？", answers: [
-          { text: "猫头鹰", type: "Athena" },
-          { text: "狼", type: "Ares" },
-          { text: "马", type: "Poseidon" },
-          { text: "野猫/鹿", type: "Artemis" }
-        ]},
-        { question: "周围的人通常怎么评价你？", answers: [
-          { text: "睿智", type: "Athena" },
-          { text: "有魅力", type: "Aphrodite" },
-          { text: "令人敬畏", type: "Hades" },
-          { text: "有趣，幽默", type: "Hermes" }
-        ]},
-        { question: "你想要哪种超能力？", answers: [
-          { text: "控制ทะเลและพายุ", type: "Poseidon" },
-          { text: "สื่อสารและเคลื่อนย้ายได้รวดเร็ว", type: "Hermes" },
-          { text: "ปลูกพืชผลได้ไม่จำกัด", type: "Demeter" },
-          { text: "เสน่ห์ที่ไม่มีใครต้านทานได้", type: "Aphrodite" }
-        ]},
-        { question: "คุณอยากเป็นที่จดจำในเรื่องใด?", answers: [
-          { text: "ปัญญาและการให้คำแนะนำ", type: "Athena" },
-          { text: "ความกล้าหาญในสงคราม", type: "Ares" },
-          { text: "ความรักและความงาม", type: "Aphrodite" },
-          { text: "การสร้างสรรค์ผลงาน", type: "Hephaestus" }
-        ]},
-        { question: "สีที่สะท้อนตัวคุณมากที่สุดคือ?", answers: [
-          { text: "ทองและเงิน", type: "Zeus" },
-          { text: "เขียวธรรมชาติ", type: "Demeter" },
-          { text: "แดงเข้มหรือบรอนซ์", type: "Ares" },
-          { text: "น้ำเงินเข้มหรือน้ำทะเล", type: "Poseidon" }
-        ]},
-        { question: "คุณจัดการกับความขัดแย้งอย่างไร?", answers: [
-          { text: "ใช้เหตุผลและพูดคุย", type: "Athena" },
-          { text: "เผชิญหน้าและแก้ปัญหาโดยตรง", type: "Ares" },
-          { text: "หลีกเลี่ยงและเฝ้าดูเงียบๆ", type: "Hades" },
-          { text: "หาวิธีสร้างสันติ", type: "Aphrodite" }
-        ]}
-      ]
-    };
-
-    const scores = {};
-    const userAnswers = [];
-    let current = 0;
-    let lang = "th";
-    let questions = questionsByLang[lang];
-
-    const quizSection = document.getElementById("quiz-section");
-    const historySection = document.getElementById("history-section");
-    const quizNavLink = document.getElementById("quiz-nav-link");
-    const historyNavLink = document.getElementById("history-nav-link");
-    const prevBtn = document.getElementById("prev-btn");
-    const nextBtn = document.getElementById("next-btn");
-    const progressIndicator = document.getElementById("progress-indicator");
-    const godCardGrid = document.getElementById("god-card-grid");
-    const godDetailView = document.getElementById("god-detail-view");
-    const detailGodImg = document.getElementById("detail-god-img");
-    const detailGodName = document.getElementById("detail-god-name");
-    const detailGodDesc = document.getElementById("detail-god-desc");
-
-    for (const god in godData) {
-        scores[god] = 0;
-    }
-
-    function showSection(sectionId) {
-      if (sectionId === 'quiz') {
-        quizSection.style.display = 'block';
-        historySection.style.display = 'none';
-        quizNavLink.classList.add('active');
-        historyNavLink.classList.remove('active');
-        restartQuiz();
-      } else if (sectionId === 'history') {
-        quizSection.style.display = 'none';
-        historySection.style.display = 'block';
-        quizNavLink.classList.remove('active');
-        historyNavLink.classList.add('active');
-        showHistoryList();
-      }
-      updateContentLanguage();
-    }
-
-    document.getElementById("langToggle").addEventListener("change", (e) => {
-      lang = e.target.value;
-      updateContentLanguage();
-      if (quizSection.style.display !== 'none') {
-          current = 0;
-          for (const god in scores) {
-            if (scores.hasOwnProperty(god)) {
-              scores[god] = 0;
+    <script>
+        const translations = {
+            th: {
+                title: "คุณเป็นเทพเจ้าองค์ใดในตำนานกรีก?",
+                resultPrefix: "คุณเหมือนกับเทพเจ้า",
+                reasonPrefix: "เพราะว่าคุณเป็นคน",
+                prevBtn: "ย้อนกลับ",
+                nextBtn: "ถัดไป",
+                restartBtn: "เริ่มใหม่",
+                progressText: "คำถามที่ {current} จาก {total}",
+                quizNavLink: "ควิซ",
+                historyNavLink: "ประวัติเทพเจ้า",
+                historyTitle: "ประวัติเทพเจ้ากรีก",
+                historyIntro: "คลิกที่เทพเจ้าแต่ละองค์เพื่อดูรายละเอียดเพิ่มเติม",
+                backToHistoryBtn: "กลับสู่หน้ารายชื่อเทพ",
+                cannotProcessResult: "ไม่สามารถประมวลผลผลลัพธ์ได้",
+                sourceLinkText: "แหล่งอ้างอิงข้อมูล: Wikipedia"
+            },
+            en: {
+                title: "Which Greek God Are You?",
+                resultPrefix: "You are like the god",
+                reasonPrefix: "Because you are",
+                prevBtn: "Previous",
+                nextBtn: "Next",
+                restartBtn: "Restart Quiz",
+                progressText: "Question {current} of {total}",
+                quizNavLink: "Quiz",
+                historyNavLink: "God History",
+                historyTitle: "History of Greek Gods",
+                historyIntro: "Click on each god to learn more.",
+                backToHistoryBtn: "Back to God List",
+                cannotProcessResult: "Cannot process result",
+                sourceLinkText: "Data Source: Wikipedia"
+            },
+            zh: {
+                title: "你是希腊神话中的哪位神?",
+                resultPrefix: "你像希腊神话中的",
+                reasonPrefix: "因为你是一个",
+                prevBtn: "上一题",
+                nextBtn: "下一题",
+                restartBtn: "重新开始",
+                progressText: "第 {current} 题 共 {total} 题",
+                quizNavLink: "测验",
+                historyNavLink: "神话历史",
+                historyTitle: "希腊神话历史",
+                historyIntro: "点击每位神灵了解更多信息。",
+                backToHistoryBtn: "返回神灵列表",
+                cannotProcessResult: "无法处理结果",
+                sourceLinkText: "数据来源：维基百科"
             }
-          }
-          userAnswers.length = 0;
-          document.getElementById("quiz-container").style.display = "block";
-          document.getElementById("result").innerHTML = "";
-          questions = questionsByLang[lang];
-          showQuestion();
-      } else {
-          showHistoryList();
-      }
-    });
+        };
 
-    function toggleTheme() {
-      const body = document.body;
-      if (body.dataset.theme === "light") {
-          body.dataset.theme = "dark";
-      } else {
-          body.dataset.theme = "light";
-      }
-      updateTransparency();
-    }
+        const godData = {
+            Zeus: { name: { th: "ซูส", en: "Zeus", zh: "宙斯" }, img: "https://cdn.discordapp.com/attachments/893104637656334348/1389977275771912252/Zeus.jpg?ex=686694b7&is=68654337&hm=ffc9f3fc6748e1173cd6f78943c2a288feacafaf200e36e2f742066b8d0b5bfb&", desc: { th: "เทพแห่งสายฟ้าและราชาแห่งเทพเจ้าผู้ปกครองเขาโอลิมปัส เป็นผู้ควบคุมสภาพอากาศและสัญลักษณ์ของอำนาจ ความยุติธรรม และกฎระเบียบ เขามักถูกวาดภาพคู่กับสายฟ้าและนกอินทรี", en: "God of thunder and king of the gods, ruler of Mount Olympus. He controls weather and symbolizes power, justice, and order. He is often depicted with a lightning bolt and an eagle.", zh: "雷电之神，奥林匹斯山之王。他掌控天气，象征着权力、正义和秩序。他常被描绘成手持闪电，身边伴有老鹰。" }, reason: { th: "มีภาวะผู้นำ, เด็ดขาด, และรักความยุติธรรม", en: "a decisive, powerful leader who values justice", zh: "果断、强大、重视正义的领导者" }, source: { th: "https://th.wikipedia.org/wiki/%E0%B8%8B%E0%B8%B9%E0%B8%AA", en: "https://en.wikipedia.org/wiki/Zeus", zh: "https://zh.wikipedia.org/wiki/%E4%BF%84%E5%A3%AB%E6%8B%89" } },
+            Hera: { name: { th: "เฮร่า", en: "Hera", zh: "赫拉" }, img: "https://media.discordapp.net/attachments/893104637656334348/1389977296957607967/hera.jpg?ex=686694bc&is=6865433c&hm=56ecfe9a02f06718a06db04e9a71a11038ecfe388d688ef4dbe78e6e69b0850f&=&format=webp&width=499&height=800", desc: { th: "เทพีแห่งการแต่งงาน สตรี การคลอดบุตร และครอบครัว เป็นราชินีแห่งโอลิมปัสและภรรยาของซูส เธอมักถูกวาดภาพด้วยมงกุฎและคทา", en: "Goddess of marriage, women, childbirth, and family. She is the Queen of Olympus and wife of Zeus. She is often depicted with a diadem and a scepter.", zh: "婚姻、妇女、生育和家庭女神，奥林匹斯山女王，宙斯的妻子。她常被描绘成头戴王冠，手持权杖。" }, reason: { th: "รักครอบครัว, มีความภักดี, และเป็นผู้ปกป้อง", en: "loyal, protective, and deeply devoted to family", zh: "忠诚、有保护欲、非常顾家" }, source: { th: "https://th.wikipedia.org/wiki/%E0%B9%80%E0%B8%AE%E0%B8%A3%E0%B9%88%E0%B8%B2", en: "https://en.wikipedia.org/wiki/Hera", zh: "https://zh.wikipedia.org/wiki/%E8%B5%AB%E6%8B%89" } },
+            Poseidon: { name: { th: "โพไซดอน", en: "Poseidon", zh: "波塞冬" }, img: "https://media.discordapp.net/attachments/893104637656334348/1389977278020194441/poseidon.jpg?ex=686694b7&is=68654337&hm=e65969820991c670cc0c42ae1019173b46fc868997b5dfdd53340031564b8937&=&format=webp&width=499&height=799", desc: { th: "เทพแห่งท้องทะเล แผ่นดินไหว และม้า เป็นพี่ชายของซูสและฮาเดส เขามีอารมณ์รุนแรงและมักถูกวาดภาพคู่กับตรีศูล", en: "God of the sea, earthquakes, and horses. He is a brother of Zeus and Hades, known for his violent temper and is often depicted with a trident.", zh: "海洋、地震和马匹之神，宙斯和哈迪斯的兄弟。他性情暴躁，常被描绘成手持三叉戟。" }, reason: { th: "รักอิสระ, มีพลังขับเคลื่อน, และอาจมีอารมณ์ที่รุนแรง", en: "free-spirited, powerful, and sometimes tempestuous", zh: "热爱自由、力量强大，有时性情暴躁" }, source: { th: "https://th.wikipedia.org/wiki/%E0%B9%82%E0%B8%9E%E0%B9%84%E0%B8%8B%E0%B8%94%E0%B8%AD%E0%B8%99", en: "https://en.wikipedia.org/wiki/Poseidon", zh: "https://zh.wikipedia.org/wiki/%E6%B3%A2%E5%A1%9E%E5%86%AC" } },
+            Demeter: { name: { th: "ดีมีเทอร์", en: "Demeter", zh: "得墨忒耳" }, img: "https://media.discordapp.net/attachments/893104637656334348/1389977278703734857/demeter.jpg?ex=686694b7&is=68654337&hm=70495da3fbf6aebd33d480ec8c1835d0eda1337704ea0cd98ac150e51b2686d8&=&format=webp&width=499&height=799", desc: { th: "เทพีแห่งการเกษตร การเก็บเกี่ยว ความอุดมสมบูรณ์ และกฎแห่งธรรมชาติ เป็นผู้ให้กำเนิดพืชผลและอาหารแก่มนุษย์ เธอเป็นเทพีที่ใจดีและรักการดูแล", en: "Goddess of agriculture, harvest, fertility, and sacred law. She is the giver of grain and food to mankind. She is a kind and nurturing goddess.", zh: "农业、收获、丰饶和自然法则女神，为人类提供谷物和食物。她是一位仁慈且富有母性的女神。" }, reason: { th: "ใจดี, มีความเมตตา, และรักการดูแลผู้อื่น", en: "kind, nurturing, and compassionate towards others", zh: "善良、有爱心、乐于照顾他人" }, source: { th: "https://th.wikipedia.org/wiki/%E0%B8%94%E0%B8%B5%E0%B8%A1%E0%B8%B5%E0%B9%80%E0%B8%97%E0%B8%AD%E0%B8%A3%E0%B9%8C", en: "https://en.wikipedia.org/wiki/Demeter", zh: "https://zh.wikipedia.org/wiki/%E5%BE%97%E5%A2%A8%E5%BF%92%E8%80%B3" } },
+            Athena: { name: { th: "อธีนา", en: "Athena", zh: "雅典娜" }, img: "https://media.discordapp.net/attachments/893104637656334348/1389977276497662022/athena.jpg?ex=686694b7&is=68654337&hm=3b262777213dec400c4ebd8ce236c0329296349f8af28095a0b9f1c52aac2c1b&=&format=webp&width=499&height=800", desc: { th: "เทพีแห่งปัญญา สงครามยุทธวิธี งานฝีมือ และศิลปะ เธอเกิดจากศีรษะของซูสอย่างเต็มตัวและติดอาวุธ เป็นผู้กล้าหาญและรอบรู้", en: "Goddess of wisdom, strategic warfare, handicrafts, and art. She was born fully grown and armed from Zeus's head. She is brave and highly knowledgeable.", zh: "智慧、策略性战争、手工艺和艺术女神。她从宙斯的头颅中全副武装地诞生。她勇敢而博学多才。" }, reason: { th: "ชาญฉลาด, มีเหตุผล, และวางแผนเก่ง", en: "wise, strategic, and logical in your approach", zh: "聪明、有策略、理性" }, source: { th: "https://th.wikipedia.org/wiki/%E0%B8%AD%E0%B8%B0%E0%B8%98%E0%B8%B5%E0%B8%99%E0%B8%B2", en: "https://en.wikipedia.org/wiki/Athena", zh: "https://zh.wikipedia.org/wiki/%E9%9B%85%E5%85%B8%E5%A8%9C" } },
+            Apollo: { name: { th: "อะพอลโล", en: "Apollo", zh: "阿波罗" }, img: "https://media.discordapp.net/attachments/893104637656334348/1389977276871086150/apollo.jpg?ex=686694b7&is=68654337&hm=6e02b22f4d9b59fdab3343bc968b28de46d1ccd68eafd12916412b1c8463d94c&=&format=webp&width=499&height=800", desc: { th: "เทพแห่งดนตรี กวีนิพนธ์ แสง การรักษาโรค และการพยากรณ์ เป็นผู้นำของเหล่ามิวส์และเป็นเทพแห่งความงามและสมดุล", en: "God of music, poetry, light, healing, and prophecy. He is the leader of the Muses and a god of beauty and balance.", zh: "音乐、诗歌、光明、治疗和预言之神。他是缪斯女神的领袖，是美与平衡的象征。" }, reason: { th: "มีศิลปะในหัวใจ, ชอบความสวยงาม, และมองโลกในแง่ดี", en: "artistic, appreciative of beauty, and optimistic", zh: "有艺术气息、热爱美、乐观" }, source: { th: "https://th.wikipedia.org/wiki/%E0%B8%AD%E0%B8%B0%E0%B8%9E%E0%B8%AD%E0%B8%A5%E0%B9%82%E0%B8%A5", en: "https://en.wikipedia.org/wiki/Apollo", zh: "https://zh.wikipedia.org/wiki/%E9%98%BF%E6%B3%A2%E7%BD%97" } },
+            Artemis: { name: { th: "อาร์เทมิส", en: "Artemis", zh: "阿耳忒弥斯" }, img: "https://media.discordapp.net/attachments/893104637656334348/1389977277210693768/artemis.jpg?ex=686694b7&is=68654337&hm=b531af7b70a801f1ae17378d6dab1f0edecd18bc68e67735be3a4c751867bc70&=&format=webp&width=499&height=800", desc: { th: "เทพีแห่งการล่า ป่า สัตว์ป่า และดวงจันทร์ เป็นเทพีพรหมจารีและผู้พิทักษ์ธรรมชาติ เธอเป็นอิสระและรักอิสรภาพ", en: "Goddess of the hunt, wilderness, wild animals, and the moon. She is a virgin goddess and protector of nature. She is independent and loves freedom.", zh: "狩猎、荒野、野生动物和月亮女神。她是一位贞洁的女神，也是大自然的守护者。她独立且热爱自由。" }, reason: { th: "รักอิสระ, มีความมุ่งมั่น, และรักธรรมชาติ", en: "independent, determined, and connected to nature", zh: "独立、坚定、热爱大自然" }, source: { th: "https://th.wikipedia.org/wiki/%E0%B8%AD%E0%B8%B2%E0%B8%A3%E0%B9%8C%E0%B9%80%E0%B8%97%E0%B8%A1%E0%B8%B4%E0%B8%AA", en: "https://en.wikipedia.org/wiki/Artemis", zh: "https://zh.wikipedia.org/wiki/%E9%98%BF%E5%B0%94%E5%BF%AB%E5%BC%A5%E6%96%AF" } },
+            Ares: { name: { th: "แอรีส", en: "Ares", zh: "阿瑞斯" }, img: "https://media.discordapp.net/attachments/893104637656334348/1389977276208386048/ares.jpeg?ex=686694b7&is=68654337&hm=b3f9fed47697fa212c2b9be08389198c0875cbd2a76a9bad0703077dbd79b965&=&format=webp&width=499&height=800", desc: { th: "เทพแห่งสงคราม การต่อสู้ และความโหดร้าย เป็นบุตรชายของซูสและเฮร่า เขากล้าหาญ ดุดัน และไม่กลัวสิ่งใด", en: "God of war, battle, and brutality. He is the son of Zeus and Hera, known for his bravery, aggression, and fearlessness.", zh: "战争、战斗和残暴之神。他常被描绘成手持闪电，身边伴有老鹰。" }, reason: { th: "กล้าหาญ, ตรงไปตรงมา, และไม่กลัวความท้าทาย", en: "brave, direct, and fearless in the face of challenges", zh: "勇敢、直接、无畏挑战" }, source: { th: "https://th.wikipedia.org/wiki/%E0%B9%81%E0%B8%AD%E0%B8%A3%E0%B8%B5%E0%B8%AA", en: "https://en.wikipedia.org/wiki/Ares", zh: "https://zh.wikipedia.org/wiki/%E9%98%BF%E7%91%9E%E6%96%AF" } },
+            Aphrodite: { name: { th: "อโฟรไดท์", en: "Aphrodite", zh: "阿佛洛狄忒" }, img: "https://media.discordapp.net/attachments/893104637656334348/1389977277483319407/aphrodite.jpg?ex=686694b7&is=68654337&hm=4f9b1bf14560411e0f11a959de64fb9e51c31c78a30873f2011e1ec8a085b9df&=&format=webp&width=499&height=800", desc: { th: "เทพีแห่งความรัก ความงาม ความสุข และความเจริญรุ่งเรือง เธอเกิดจากฟองคลื่นทะเล มีเสน่ห์และรักสันติ", en: "Goddess of love, beauty, pleasure, and procreation. Born from the sea foam, she is charming and peaceful.", zh: "爱、美、快乐和繁殖女神。她诞生于海浪泡沫中，迷人且热爱和平。" }, reason: { th: "มีเสน่ห์, รักความงาม, และชื่นชอบความสัมพันธ์ที่ดี", en: "charming, graceful, and value love and beauty", zh: "有魅力、爱美、重视良好关系" }, source: { th: "https://th.wikipedia.org/wiki/%E0%B8%AD%E0%B8%B0%E0%B9%82%E0%B8%9F%E0%B8%A3%E0%B9%84%E0%B8%94%E0%B8%97%E0%B8%B5", en: "https://en.wikipedia.org/wiki/Aphrodite", zh: "https://zh.wikipedia.org/wiki/%E9%98%BF%E4%BD%9B%E6%B4%9B%E7%AC%9B%E5%BF%97" } },
+            Hephaestus: { name: { th: "เฮเฟสทัส", en: "Hephaestus", zh: "赫菲斯托斯" }, img: "https://media.discordapp.net/attachments/893104637656334348/1389977278397812767/hephaestuse.jpg?ex=686694b7&is=68654337&hm=0694fce5c0b6b7028e5b254fda9b15906c20473e11d00ffefd9b2b0c24e59b43&=&format=webp&width=499&height=799", desc: { th: "เทพแห่งไฟ โลหะ การช่างฝีมือ และภูเขาไฟ เป็นช่างตีเหล็กแห่งเทพเจ้าผู้สร้างสรรค์สิ่งประดิษฐ์อันงดงาม เขามีความขยันและสร้างสรรค์", en: "God of fire, metalworking, craftsmanship, and volcanoes. He is the blacksmith of the gods, creating beautiful artifacts. He is diligent and creative.", zh: "火、金属加工、手工艺和火山之神。他勤奋且富有创造力。" }, reason: { th: "สร้างสรรค์, มีความมุ่งมั่น, และชอบประดิษฐ์สิ่งใหม่ๆ", en: "creative, diligent, and enjoy building new things", zh: "有创造力、勤奋、喜欢创造新事物" }, source: { th: "https://th.wikipedia.org/wiki/%E0%B9%80%E0%B8%AE%E0%B9%80%E0%B8%9F%E0%B8%AA%E0%B8%97%E0%B8%B1%E0%B8%AA", en: "https://en.wikipedia.org/wiki/Hephaestus", zh: "https://zh.wikipedia.org/wiki/%E8%B5%AB%E8%8F%B2%E6%96%AF%E6%89%98%E6%96%AF" } },
+            Hermes: { name: { th: "เฮอร์มีส", en: "Hermes", zh: "赫尔墨斯" }, img: "https://media.discordapp.net/attachments/893104637656334348/1389977296533848094/hermes.jpg?ex=686694bc&is=6865433c&hm=32c69d3b26c13a189357e08c1155f3d6c5d5fff4936d31d34b8f5061308a5323&=&format=webp&width=500&height=800", desc: { th: "เทพแห่งการสื่อสาร การเดินทาง โจร และนักกีฬา เป็นผู้ส่งสารของเทพเจ้าและเป็นผู้คุ้มครองการค้าและคนเดินทาง เขาว่องไวและเจ้าเล่ห์", en: "God of communication, travel, thieves, and athletes. He is the messenger of the gods and protector of trade and travelers. He is swift and clever.", zh: "信息、旅行、小偷和运动员之神。他敏捷而狡黠，是众神的信使，商业和旅行者的守护神。" }, reason: { th: "ฉลาดเฉลียว, ปรับตัวเก่ง, และชอบการเดินทางหรือการสื่อสาร", en: "witty, adaptable, and a great communicator or traveler", zh: "机智、适应性强、善于沟通或旅行" }, source: { th: "https://th.wikipedia.org/wiki/%E0%B9%80%E0%B8%AE%E0%B8%AD%E0%B8%A3%E0%B9%8C%E0%B8%A1%E0%B8%B5%E0%B8%AA", en: "https://en.wikipedia.org/wiki/Hermes", zh: "https://zh.wikipedia.org/wiki/%E8%B5%AB%E5%B0%94%E9%BB%8F%E6%96%AF" } },
+            Dionysus: { name: { th: "ไดโอนิซัส", en: "Dionysus", zh: "狄俄尼索斯" }, img: "https://cdn.discordapp.com/attachments/893104637656334348/1389977275394560020/AestheticMale_-verve_Dionysus.jpg?ex=686694b6&is=68654336&hm=950da542e976a70c3cc2c3ccb2dba35767d550250df27afafee7a6ebc53678ec&", desc: { th: "เทพแห่งไวน์ ความอุดมสมบูรณ์ พิธีเฉลิมฉลอง และละคร เขาเป็นเทพเจ้าที่ส่งเสริมการปลดปล่อยและความสุข เขามักเกี่ยวข้องกับความสนุกสนาน ความคิดสร้างสรรค์ และการเปลี่ยนแปลง", en: "God of wine, fertility, ritual madness, and theatre. He is a god who inspires ecstasy and revelry, often associated with pleasure, creativity, and transformation.", zh: "葡萄酒、丰饶、狂喜和戏剧之神。他是一位激发狂喜和欢庆的神，常与享乐、创造力和转变相关联。" }, reason: { th: "รักอิสระ, ชอบความสนุกสนาน, และมีด้านที่สร้างสรรค์หรือลึกลับ", en: "free-spirited, enjoys pleasure, and has a creative or mysterious side", zh: "热爱自由、享受快乐、有创造力或神秘的一面" }, source: { th: "https://th.wikipedia.org/wiki/%E0%B9%84%E0%B8%94%E0%B9%82%E0%B8%AD%E0%B8%99%E0%B8%B4%E0%B8%8B%E0%B8%B1%E0%B8%AA", en: "https://en.wikipedia.org/wiki/Dionysus", zh: "https://zh.wikipedia.org/wiki/%E7%8B%84%E4%BF%84%E5%B0%BC%E7%B4%A2%E6%96%AF" } }
+        };
 
-    function updateTransparency() {
-      const root = document.documentElement;
-      if (document.body.dataset.theme === "dark") {
-        root.style.setProperty('--card-color', 'rgba(52, 58, 64, 0.85)');
-        root.style.setProperty('--nav-bg-color', 'rgba(26, 26, 26, 0.9)');
-      } else {
-        root.style.setProperty('--card-color', 'rgba(255, 255, 255, 0.85)');
-        root.style.setProperty('--nav-bg-color', 'rgba(52, 58, 64, 0.9)');
-      }
-    }
+        const questionsByLang = {
+            th: [
+                { question: "คุณคิดว่าคุณเป็นคนแบบไหน?", answers: [
+                    { text: "ฉลาด รอบคอบ", type: "Athena" },
+                    { text: "เด็ดขาด มีอำนาจ", type: "Zeus" },
+                    { text: "ใจดี ดูแลคนอื่น", type: "Demeter" },
+                    { text: "รักอิสระ ชอบปาร์ตี้", type: "Dionysus" }
+                ]},
+                { question: "สถานที่โปรดของคุณคือที่ไหน?", answers: [
+                    { text: "ห้องสมุดหรือเวิร์คช็อป", type: "Hephaestus" },
+                    { text: "ป่าเขาหรือธรรมชาติ", type: "Artemis" },
+                    { text: "ชายทะเลหรือแม่น้ำ", type: "Poseidon" },
+                    { text: "บาร์, โรงละคร, หรือเทศกาล", type: "Dionysus" }
+                ]},
+                { question: "คุณชอบกิจกรรมแบบไหนมากที่สุด?", answers: [
+                    { text: "การเรียนรู้หรือพัฒนาไอเดียใหม่", type: "Athena" },
+                    { text: "เข้าสังคม พบปะผู้คน", type: "Hermes" },
+                    { text: "จัดบ้าน ปลูกต้นไม้", type: "Demeter" },
+                    { text: "เข้าร่วมงานเฉลิมฉลองหรือกิจกรรมสร้างสรรค์", type: "Dionysus" }
+                ]},
+                { question: "คุณมีข้อดีเด่นด้านใด?", answers: [
+                    { text: "ความกล้าหาญ", type: "Ares" },
+                    { text: "ความรักและความเข้าใจ", type: "Aphrodite" },
+                    { text: "ความยุติธรรม", type: "Zeus" },
+                    { text: "การสื่อสาร", type: "Hermes" }
+                ]},
+                { question: "สัตว์ที่คุณรู้สึกเชื่อมโยงมากที่สุดคือ?", answers: [
+                    { text: "นกฮูก", type: "Athena" },
+                    { text: "หมาป่า", type: "Ares" },
+                    { text: "ม้า", type: "Poseidon" },
+                    { text: "เสือดำหรือแพะ", type: "Dionysus" }
+                ]},
+                { question: "คนรอบข้างมักบอกว่าคุณเป็นอย่างไร?", answers: [
+                    { text: "ชาญฉลาด", type: "Athena" },
+                    { text: "มีเสน่ห์", type: "Aphrodite" },
+                    { text: "สนุกสนาน ตลก", type: "Hermes" },
+                    { text: "มีชีวิตชีวา น่าตื่นเต้น", type: "Dionysus" }
+                ]},
+                { question: "คุณอยากมีพลังพิเศษแบบใด?", answers: [
+                    { text: "ควบคุมทะเลและพายุ", type: "Poseidon" },
+                    { text: "สื่อสารและเคลื่อนย้ายได้รวดเร็ว", type: "Hermes" },
+                    { text: "ปลูกพืชผลได้ไม่จำกัด", type: "Demeter" },
+                    { text: "เปลี่ยนน้ำเป็นไวน์ หรือสร้างความสุขให้คนรอบข้าง", type: "Dionysus" }
+                ]},
+                { question: "คุณอยากเป็นที่จดจำในเรื่องใด?", answers: [
+                    { text: "ปัญญาและการให้คำแนะนำ", type: "Athena" },
+                    { text: "ความกล้าหาญในสงคราม", type: "Ares" },
+                    { text: "ความรักและความงาม", type: "Aphrodite" },
+                    { text: "การสร้างสรรค์ผลงาน", type: "Hephaestus" }
+                ]},
+                { question: "สีที่สะท้อนตัวคุณมากที่สุดคือ?", answers: [
+                    { text: "ทองและเงิน", type: "Zeus" },
+                    { text: "เขียวธรรมชาติ", type: "Demeter" },
+                    { text: "แดงเข้มหรือบรอนซ์", type: "Ares" },
+                    { text: "ม่วงหรือสีเขียวของเถาองุ่น", type: "Dionysus" }
+                ]},
+                { question: "คุณจัดการกับความขัดแย้งอย่างไร?", answers: [
+                    { text: "ใช้เหตุผลและพูดคุย", type: "Athena" },
+                    { text: "เผชิญหน้าและแก้ปัญหาโดยตรง", type: "Ares" },
+                    { text: "หลีกเลี่ยงและหาทางปลดปล่อย", type: "Dionysus" },
+                    { text: "หาวิธีสร้างสันติ", type: "Aphrodite" }
+                ]}
+            ],
+            en: [
+                { question: "How would you describe yourself?", answers: [
+                    { text: "Smart and thoughtful", type: "Athena" },
+                    { text: "Decisive and powerful", type: "Zeus" },
+                    { text: "Kind and caring", type: "Demeter" },
+                    { text: "Free-spirited and festive", type: "Dionysus" }
+                ]},
+                { question: "What's your favorite place?", answers: [
+                    { text: "Library or workshop", type: "Hephaestus" },
+                    { text: "Forest or nature", type: "Artemis" },
+                    { text: "Beach or river", type: "Poseidon" },
+                    { text: "A bar, theater, or festival", type: "Dionysus" }
+                ]},
+                { question: "What do you like to do in your free time?", answers: [
+                    { text: "Read books", type: "Athena" },
+                    { text: "Draw or play music", type: "Apollo" },
+                    { text: "Cook or take care of home", type: "Demeter" },
+                    { text: "Attend celebrations or creative events", type: "Dionysus" }
+                ]},
+                { question: "What is your greatest strength?", answers: [
+                    { text: "Bravery", type: "Ares" },
+                    { text: "Love and empathy", type: "Aphrodite" },
+                    { text: "Justice", type: "Zeus" },
+                    { text: "Communication", type: "Hermes" }
+                ]},
+                { question: "Which animal do you feel most connected to?", answers: [
+                    { text: "Owl", type: "Athena" },
+                    { text: "Wolf", type: "Ares" },
+                    { text: "Horse", type: "Poseidon" },
+                    { text: "Panther or Goat", "type": "Dionysus" }
+                ]},
+                { question: "How do you want people to remember you?", answers: [
+                    { text: "Smart and talented", type: "Athena" },
+                    { text: "Charming and lovely", type: "Aphrodite" },
+                    { text: "Strong and bold", type: "Ares" },
+                    { text: "Lively and exciting", type: "Dionysus" }
+                ]},
+                { question: "If you could have one superpower, what would it be?", answers: [
+                    { text: "Control nature", type: "Poseidon" },
+                    { text: "Control fire", type: "Hephaestus" },
+                    { text: "Talk to anyone", type: "Hermes" },
+                    { text: "Turn water into wine or bring joy to others", type: "Dionysus" }
+                ]},
+                { question: "What do you value the most?", answers: [
+                    { text: "Knowledge", type: "Athena" },
+                    { text: "Freedom", type: "Artemis" },
+                    { text: "Family", type: "Hera" },
+                    { text: "Pleasure and revelry", type: "Dionysus" }
+                ]},
+                { question: "What’s your fashion style?", answers: [
+                    { text: "Elegant", type: "Hera" },
+                    { text: "Casual and comfy", type: "Demeter" },
+                    { text: "Trendy and bold", type: "Apollo" },
+                    { text: "Vibrant and free-flowing", type: "Dionysus" }
+                ]},
+                { question: "How do you deal with conflict?", answers: [
+                    { text: "Talk with reason", type: "Athena" },
+                    { text: "Avoid and wait", type: "Dionysus" },
+                    { text: "Solve it directly", type: "Ares" },
+                    { text: "Let it flow", type: "Aphrodite" }
+                ]}
+            ],
+            zh: [
+                { question: "你认为自己是哪种类型的人？", answers: [
+                    { text: "聪明，细心", type: "Athena" },
+                    { text: "果断，有权威", type: "Zeus" },
+                    { text: "善良，关心他人", type: "Demeter" },
+                    { text: "自由奔放，热爱节日", type: "Dionysus" }
+                ]},
+                { question: "你最喜欢的地方是哪里？", answers: [
+                    { text: "图书馆或工作室", type: "Hephaestus" },
+                    { text: "森林或大自然", type: "Artemis" },
+                    { text: "海边或河流", type: "Poseidon" },
+                    { text: "酒吧、剧院或节日", type: "Dionysus" }
+                ]},
+                { question: "你最喜欢哪种活动？", answers: [
+                    { text: "学习或发展新想法", type: "Athena" },
+                    { text: "社交，结识新朋友", type: "Hermes" },
+                    { text: "整理家务，种植花草", type: "Demeter" },
+                    { text: "参加庆祝活动或创意活动", type: "Dionysus" }
+                ]},
+                { question: "你有什么突出的优点？", answers: [
+                    { text: "勇气", type: "Ares" },
+                    { text: "爱与理解", type: "Aphrodite" },
+                    { text: "公正", type: "Zeus" },
+                    { text: "沟通", type: "Hermes" }
+                ]},
+                { question: "你觉得自己与哪种动物联系最紧密？", answers: [
+                    { text: "猫头鹰", type: "Athena" },
+                    { text: "狼", type: "Ares" },
+                    { text: "马", type: "Poseidon" },
+                    { text: "黑豹或山羊", type: "Dionysus" }
+                ]},
+                { question: "周围的人通常怎么评价你？", answers: [
+                    { text: "睿智", type: "Athena" },
+                    { text: "有魅力", type: "Aphrodite" },
+                    { text: "有趣，幽默", type: "Hermes" },
+                    { text: "充满活力，令人兴奋", type: "Dionysus" }
+                ]},
+                { question: "你想要哪种超能力？", answers: [
+                    { text: "控制ทะเลและพายุ", type: "Poseidon" },
+                    { text: "สื่อสารและเคลื่อนย้ายได้รวดเร็ว", type: "Hermes" },
+                    { text: "ปลูกพืชผลได้ไม่จำกัด", type: "Demeter" },
+                    { text: "把水变成酒或给他人带来快乐", type: "Dionysus" }
+                ]},
+                { question: "คุณอยากเป็นที่จดจำในเรื่องใด?", answers: [
+                    { text: "ปัญญาและการให้คำแนะนำ", type: "Athena" },
+                    { text: "ความกล้าหาญในสงคราม", type: "Ares" },
+                    { text: "ความรักและความงาม", type: "Aphrodite" },
+                    { text: "การสร้างสรรค์ผลงาน", type: "Hephaestus" }
+                ]},
+                { question: "สีที่สะท้อนตัวคุณมากที่สุดคือ?", answers: [
+                    { text: "ทองและเงิน", type: "Zeus" },
+                    { text: "เขียวธรรมชาติ", type: "Demeter" },
+                    { text: "แดงเข้มหรือบรอนซ์", type: "Ares" },
+                    { text: "紫色或葡萄藤的绿色", type: "Dionysus" }
+                ]},
+                { question: "คุณจัดการกับความขัดแย้งอย่างไร?", answers: [
+                    { text: "ใช้เหตุผลและพูดคุย", type: "Athena" },
+                    { text: "直接面对并解决问题", type: "Ares" },
+                    { text: "避开并寻找释放方式", type: "Dionysus" },
+                    { text: "寻求和平", type: "Aphrodite" }
+                ]}
+            ]
+        };
 
-    function updateContentLanguage() {
-      document.getElementById("quiz-nav-link").textContent = translations[lang].quizNavLink;
-      document.getElementById("history-nav-link").textContent = translations[lang].historyNavLink;
+        const scores = {};
+        const userAnswers = [];
+        let current = 0;
+        let lang = "en"; // ตั้งค่าเริ่มต้นเป็นภาษาอังกฤษ
+        let questions = questionsByLang[lang];
 
-      document.getElementById("quiz-title").textContent = translations[lang].title;
-      if (document.getElementById("quiz-container").style.display !== 'none') {
-        showQuestion();
-      } else if (document.getElementById("result").innerHTML !== '') {
-        showResult(); // <-- เรียก showResult อีกครั้งเพื่ออัปเดตภาษา
-      }
-      
-      document.getElementById("history-title").textContent = translations[lang].historyTitle;
-      document.getElementById("history-intro").textContent = translations[lang].historyIntro;
-      document.getElementById("back-to-history-btn").textContent = translations[lang].backToHistoryBtn;
+        const quizSection = document.getElementById("quiz-section");
+        const historySection = document.getElementById("history-section");
+        const quizNavLink = document.getElementById("quiz-nav-link");
+        const historyNavLink = document.getElementById("history-nav-link");
+        const prevBtn = document.getElementById("prev-btn");
+        const nextBtn = document.getElementById("next-btn"); // ยังไม่ได้ใช้งานจริงในโค้ดนี้ แต่เก็บไว้ได้
+        const progressIndicator = document.getElementById("progress-indicator");
+        const godCardGrid = document.getElementById("god-card-grid");
+        const godDetailView = document.getElementById("god-detail-view");
+        const detailGodImg = document.getElementById("detail-god-img");
+        const detailGodName = document.getElementById("detail-god-name");
+        const detailGodDesc = document.getElementById("detail-god-desc");
+        const detailGodSource = document.getElementById("detail-god-source"); // เพิ่ม element นี้
 
-      if (godDetailView.style.display !== 'none') {
-          const godKey = detailGodImg.alt;
-          showGodDetail(godKey);
-      } else {
-          showHistoryList();
-      }
-    }
-
-    function showQuestion() {
-      if (!questions || questions.length === 0) {
-        console.error("Questions not found for the current language.");
-        return;
-      }
-
-      const q = questions[current];
-      document.getElementById("question-box").textContent = q.question;
-      const btns = document.getElementById("buttons");
-      btns.innerHTML = "";
-
-      q.answers.forEach((a, index) => {
-        const btn = document.createElement("button");
-        btn.textContent = a.text;
-        if (userAnswers[current] && userAnswers[current].index === index) {
-          btn.classList.add('selected');
+        // Initialise scores
+        for (const god in godData) {
+            scores[god] = 0;
         }
-        btn.onclick = () => selectAnswer(a.type, index);
-        btns.appendChild(btn);
-      });
 
-      updateNavigationButtons();
-      updateProgressIndicator();
-    }
+        // --- Section Management ---
+        function showSection(sectionId) {
+            if (sectionId === 'quiz') {
+                quizSection.style.display = 'block';
+                historySection.style.display = 'none';
+                quizNavLink.classList.add('active');
+                historyNavLink.classList.remove('active');
+                restartQuiz(); // Reset quiz when navigating to quiz section
+            } else if (sectionId === 'history') {
+                quizSection.style.display = 'none';
+                historySection.style.display = 'block';
+                quizNavLink.classList.remove('active');
+                historyNavLink.classList.add('active');
+                showHistoryList(); // Show history list when navigating to history section
+            }
+            updateContentLanguage(); // Update language for the active section
+        }
 
-    function updateNavigationButtons() {
-      if (current === 0) {
-        prevBtn.style.display = "none";
-      } else {
-        prevBtn.style.display = "inline-block";
-        prevBtn.textContent = translations[lang].prevBtn;
-      }
+        // --- Language and Theme Toggles ---
+        document.getElementById("langToggle").addEventListener("change", (e) => {
+            lang = e.target.value;
+            questions = questionsByLang[lang]; // Update questions based on new language
+            updateContentLanguage();
+            // Re-render current view with new language
+            if (quizSection.style.display !== 'none') {
+                // If on quiz section, restart quiz to apply new language
+                restartQuiz();
+            } else if (historySection.style.display !== 'none') {
+                // If on history section, re-render history or detail view
+                if (godDetailView.style.display !== 'none') {
+                    const godKey = detailGodImg.alt; // Get godKey from alt attribute
+                    showGodDetail(godKey);
+                } else {
+                    showHistoryList();
+                }
+            }
+        });
 
-      nextBtn.style.display = "none"; 
-    }
+        function toggleTheme() {
+            const body = document.body;
+            if (body.dataset.theme === "light") {
+                body.dataset.theme = "dark";
+            } else {
+                body.dataset.theme = "light";
+            }
+            updateTransparency();
+        }
 
-    function updateProgressIndicator() {
-        progressIndicator.textContent = translations[lang].progressText
-            .replace('{current}', current + 1)
-            .replace('{total}', questions.length);
-    }
-
-    function selectAnswer(type, answerIndex) {
-      const currentQuestionButtons = document.querySelectorAll('#buttons button');
-      currentQuestionButtons.forEach(button => button.classList.remove('selected'));
-      currentQuestionButtons[answerIndex].classList.add('selected');
-
-      userAnswers[current] = { type: type, index: answerIndex };
-
-      for (const god in scores) {
-          if (scores.hasOwnProperty(god)) {
-              scores[god] = 0;
+        function updateTransparency() {
+            const root = document.documentElement;
+            if (document.body.dataset.theme === "dark") {
+                root.style.setProperty('--card-color', 'rgba(52, 58, 64, 0.85)');
+                root.style.setProperty('--nav-bg-color', 'rgba(26, 26, 26, 0.9)');
+            } else {
+                root.style.setProperty('--card-color', 'rgba(255, 255, 255, 0.85)');
+                root.style.setProperty('--nav-bg-color', 'rgba(52, 58, 64, 0.9)');
             }
         }
-        userAnswers.forEach(answer => {
-            if (answer) {
-            scores[answer.type] = (scores[answer.type] || 0) + 1;
-          }
-      });
-      
-      if (current < questions.length - 1) {
-        current++;
-        showQuestion();
-      } else {
-        setTimeout(() => {
-          showResult();
-          triggerFireworks();
-        }, 300);
-      }
-    }
 
-    function prevQuestion() {
-      if (current > 0) {
-        current--;
-        showQuestion();
-        document.getElementById("quiz-container").style.display = "block";
-        document.getElementById("result").innerHTML = "";
-      }
-    }
+        function updateContentLanguage() {
+            document.getElementById("quiz-nav-link").textContent = translations[lang].quizNavLink;
+            document.getElementById("history-nav-link").textContent = translations[lang].historyNavLink;
 
-    function showResult() {
-      let top = null, max = 0;
-      for (const god in scores) {
-          if (scores.hasOwnProperty(god)) {
-              scores[god] = 0;
+            document.getElementById("quiz-title").textContent = translations[lang].title;
+            // Only update quiz content if quiz is currently visible
+            if (quizSection.style.display !== 'none') {
+                 if (document.getElementById("result").innerHTML !== '') {
+                    // If result is shown, re-render result with new language
+                    showResult();
+                } else {
+                    // Otherwise, re-render current question
+                    showQuestion();
+                }
+            }
+            
+            document.getElementById("history-title").textContent = translations[lang].historyTitle;
+            document.getElementById("history-intro").textContent = translations[lang].historyIntro;
+            document.getElementById("back-to-history-btn").textContent = translations[lang].backToHistoryBtn;
+
+            // Update history content if history is currently visible
+            if (historySection.style.display !== 'none') {
+                if (godDetailView.style.display !== 'none') {
+                    const godKey = detailGodImg.alt; // Use alt attribute to store godKey
+                    showGodDetail(godKey); // Re-render detail view with new language
+                } else {
+                    showHistoryList(); // Re-render history list with new language
+                }
             }
         }
-        userAnswers.forEach(answer => {
-            if (answer) {
-            scores[answer.type] = (scores[answer.type] || 0) + 1;
-          }
-      });
 
-      for (let god in scores) {
-        if (scores.hasOwnProperty(god)) {
-          if (scores[god] > max) {
-            max = scores[god];
-            top = god;
-          }
+        // --- Quiz Functions ---
+        function showQuestion() {
+            if (!questions || questions.length === 0) {
+                console.error("Questions not found for the current language.");
+                return;
+            }
+
+            const q = questions[current];
+            document.getElementById("question-box").textContent = q.question;
+            const btns = document.getElementById("buttons");
+            btns.innerHTML = "";
+
+            q.answers.forEach((a, index) => {
+                const btn = document.createElement("button");
+                btn.textContent = a.text;
+                // Highlight selected answer if returning to a previous question
+                if (userAnswers[current] && userAnswers[current].index === index) {
+                    btn.classList.add('selected');
+                }
+                btn.onclick = () => selectAnswer(a.type, index);
+                btns.appendChild(btn);
+            });
+
+            updateNavigationButtons();
+            updateProgressIndicator();
         }
-      }
-      
-      const finalGod = top; 
 
-      const g = godData[finalGod];
-      if (!g) {
-        document.getElementById("result").innerHTML = `<p>${translations[lang].cannotProcessResult}</p>`;
-        document.getElementById("quiz-container").style.display = "none";
-        return;
-      }
-      document.getElementById("quiz-container").style.display = "none";
-      document.getElementById("result").innerHTML = `
-        <h2>${translations[lang].resultPrefix} ${g.name[lang]}</h2>
-        <img src="${g.img}" alt="${finalGod}" />
-        <p>${g.desc[lang]}</p>
-        <p class="reason-text">${translations[lang].reasonPrefix} ${g.reason[lang]}</p>
-        <button onclick="restartQuiz()">${translations[lang].restartBtn}</button>
-        <a href="${g.source}" target="_blank" class="source-link">${translations[lang].sourceLinkText}</a>
-      `;
-    }
+        function updateNavigationButtons() {
+            if (current === 0) {
+                prevBtn.style.display = "none";
+            } else {
+                prevBtn.style.display = "inline-block";
+                prevBtn.textContent = translations[lang].prevBtn;
+            }
 
-    function restartQuiz() {
-      current = 0;
-      for (const god in scores) {
-        if (scores.hasOwnProperty(god)) {
-          scores[god] = 0;
+            // nextBtn is not explicitly used for navigation, answers automatically move to next question
+            // It was commented out in original code, so keeping it hidden unless functionality is added
+            nextBtn.style.display = "none";
         }
-      }
-      userAnswers.length = 0;
-      document.getElementById("quiz-container").style.display = "block";
-      document.getElementById("result").innerHTML = "";
-      showQuestion();
-    }
 
-    function showHistoryList() {
-        godCardGrid.innerHTML = '';
-        godDetailView.style.display = 'none';
-        document.getElementById("history-container").style.display = 'block';
+        function updateProgressIndicator() {
+            progressIndicator.textContent = translations[lang].progressText
+                .replace('{current}', current + 1)
+                .replace('{total}', questions.length);
+        }
 
-        for (const godKey in godData) {
-            if (godData.hasOwnProperty(godKey)) {
+        function selectAnswer(type, answerIndex) {
+            const currentQuestionButtons = document.querySelectorAll('#buttons button');
+            currentQuestionButtons.forEach(button => button.classList.remove('selected'));
+            currentQuestionButtons[answerIndex].classList.add('selected');
+
+            userAnswers[current] = { type: type, index: answerIndex };
+
+            // Reset scores and recalculate based on all selected answers so far
+            for (const god in scores) {
+                if (scores.hasOwnProperty(god)) {
+                    scores[god] = 0; // Reset
+                }
+            }
+            userAnswers.forEach(answer => {
+                if (answer) { // Ensure answer is not undefined/null (can happen if user navigates back and forth)
+                    scores[answer.type] = (scores[answer.type] || 0) + 1;
+                }
+            });
+
+            if (current < questions.length - 1) {
+                current++;
+                showQuestion();
+            } else {
+                // If it's the last question, show result after a slight delay
+                setTimeout(() => {
+                    showResult();
+                    triggerFireworks();
+                }, 300);
+            }
+        }
+
+        function prevQuestion() {
+            if (current > 0) {
+                current--;
+                showQuestion();
+                document.getElementById("quiz-container").style.display = "block";
+                document.getElementById("result").innerHTML = ""; // Clear result if user goes back
+            }
+        }
+
+        function showResult() {
+            let top = null, max = -1; // Initialize max with -1 to handle all zeros
+
+            // Scores are already calculated and updated in selectAnswer()
+            // No need to recalculate or reset here
+
+            for (let god in scores) {
+                if (scores.hasOwnProperty(god)) {
+                    if (scores[god] > max) {
+                        max = scores[god];
+                        top = god;
+                    }
+                }
+            }
+
+            const finalGod = top;
+
+            const g = godData[finalGod];
+            if (!g) {
+                document.getElementById("result").innerHTML = `<p>${translations[lang].cannotProcessResult}</p>`;
+                document.getElementById("quiz-container").style.display = "none";
+                return;
+            }
+            document.getElementById("quiz-container").style.display = "none";
+            document.getElementById("result").innerHTML = `
+                <h2>${translations[lang].resultPrefix} ${g.name[lang]}</h2>
+                <img src="${g.img}" alt="${finalGod}" />
+                <p>${g.desc[lang]}</p>
+                <p class="reason-text">${translations[lang].reasonPrefix} ${g.reason[lang]}</p>
+                <button onclick="restartQuiz()">${translations[lang].restartBtn}</button>
+                <a href="${g.source[lang]}" target="_blank" class="source-link">${translations[lang].sourceLinkText}</a>
+            `;
+        }
+
+        function restartQuiz() {
+            current = 0;
+            userAnswers.length = 0; // Clear all stored answers
+            for (const god in scores) {
+                scores[god] = 0; // Reset all scores
+            }
+            document.getElementById("quiz-container").style.display = "block";
+            document.getElementById("result").innerHTML = ""; // Clear result display
+            showQuestion(); // Start quiz from the first question
+        }
+
+        // --- History Functions ---
+        function showHistoryList() {
+            godDetailView.style.display = 'none'; // Hide detail view
+            godCardGrid.style.display = 'grid'; // Show grid of cards
+            godCardGrid.innerHTML = ''; // Clear previous cards
+
+            for (const godKey in godData) {
                 const god = godData[godKey];
                 const card = document.createElement('div');
                 card.classList.add('god-card');
                 card.onclick = () => showGodDetail(godKey);
+                // Display truncated description and language-specific source link
                 card.innerHTML = `
-                    <img src="${god.img}" alt="${god.name[lang]}">
+                    <img src="${god.img}" alt="${godKey}">
                     <h3>${god.name[lang]}</h3>
-                    <p>${god.desc[lang].substring(0, 80)}...</p>
+                    <p>${god.desc[lang].substring(0, 100)}...</p>
+                    <a href="${god.source[lang]}" target="_blank" class="source-link">${translations[lang].sourceLinkText}</a>
                 `;
                 godCardGrid.appendChild(card);
             }
         }
-    }
 
-    function showGodDetail(godKey) {
-        const god = godData[godKey];
-        if (!god) return;
+        function showGodDetail(godKey) {
+            const god = godData[godKey];
+            if (!god) {
+                console.error("God data not found for key:", godKey);
+                return;
+            }
+            godCardGrid.style.display = 'none'; // Hide card grid
+            godDetailView.style.display = 'block'; // Show detail view
 
-        document.getElementById("history-container").style.display = 'none';
-        godDetailView.style.display = 'block';
-
-        detailGodImg.src = god.img;
-        detailGodImg.alt = godKey;
-        detailGodName.textContent = god.name[lang];
-        detailGodDesc.textContent = god.desc[lang];
-    }
-
-    // --- Fireworks Function ---
-    function triggerFireworks() {
-      const duration = 5 * 1000;
-      const animationEnd = Date.now() + duration;
-      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
-
-      function randomInRange(min, max) {
-        return Math.random() * (max - min) + min;
-      }
-
-      const interval = setInterval(function() {
-        const timeLeft = animationEnd - Date.now();
-
-        if (timeLeft <= 0) {
-          return clearInterval(interval);
+            detailGodImg.src = god.img;
+            detailGodImg.alt = godKey; // Store godKey in alt attribute
+            detailGodName.textContent = god.name[lang];
+            detailGodDesc.textContent = god.desc[lang];
+            detailGodSource.href = god.source[lang]; // Update link based on current language
+            detailGodSource.textContent = translations[lang].sourceLinkText; // Update link text
         }
 
-        const particleCount = 50 * (timeLeft / duration);
-        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
-      }, 250);
-    }
+        // --- Confetti Function ---
+        function triggerFireworks() {
+            const duration = 5 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
 
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
 
-    // Initial load
-    showSection('quiz');
-    updateTransparency();
-  </script>
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                const particleCount = 50 * (timeLeft / duration);
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        }
+
+        // --- Initial Setup on Page Load ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set default language for dropdown
+            document.getElementById("langToggle").value = lang;
+            showSection('quiz'); // Start with the quiz section by default
+            updateTransparency(); // Apply initial theme transparency
+        });
+    </script>
 </body>
 </html>
